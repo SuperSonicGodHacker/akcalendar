@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
+import { isValidStaffEmail, getStaffMemberByEmail } from "@/lib/staff-directory"
 
 interface Announcement {
   id: string
@@ -27,13 +28,14 @@ interface AnnouncementsPageProps {
 export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
-  const [showPhoneVerification, setShowPhoneVerification] = useState(false)
+  const [showEmailVerification, setShowEmailVerification] = useState(false)
   const [showAddAnnouncement, setShowAddAnnouncement] = useState(false)
   const [showAddEvent, setShowAddEvent] = useState(false)
   const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" })
-  const [phoneNumber, setPhoneNumber] = useState("")
+  const [staffEmail, setStaffEmail] = useState("")
   const [verificationCode, setVerificationCode] = useState("")
   const [sentCode, setSentCode] = useState("")
+  const [currentStaffMember, setCurrentStaffMember] = useState<any>(null)
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [viewAsStudent, setViewAsStudent] = useState(false)
 
@@ -117,28 +119,33 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
   const handleLogin = () => {
     if (loginCredentials.username === "akadministrator2025" && loginCredentials.password === "akadminpassword2025") {
       setShowLogin(false)
-      setShowPhoneVerification(true)
+      setShowEmailVerification(true)
       setLoginCredentials({ username: "", password: "" })
     } else {
       alert("Invalid credentials")
     }
   }
 
-  const handlePhoneVerification = () => {
-    if (phoneNumber.length >= 10) {
+  const handleEmailVerification = () => {
+    if (!isValidStaffEmail(staffEmail)) {
+      alert("Invalid staff email. Please enter a valid Ardrey Kell staff email address.")
+      return
+    }
+
+    const staffMember = getStaffMemberByEmail(staffEmail)
+    if (staffMember) {
+      setCurrentStaffMember(staffMember)
       const code = Math.floor(100000 + Math.random() * 900000).toString()
       setSentCode(code)
-      alert(`Verification code sent to ${phoneNumber}: ${code}`)
-    } else {
-      alert("Please enter a valid phone number")
+      alert(`Verification code sent to ${staffEmail}: ${code}`)
     }
   }
 
   const handleVerificationSubmit = () => {
     if (verificationCode === sentCode) {
       setIsLoggedIn(true)
-      setShowPhoneVerification(false)
-      setPhoneNumber("")
+      setShowEmailVerification(false)
+      setStaffEmail("")
       setVerificationCode("")
       setSentCode("")
     } else {
@@ -158,7 +165,7 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
         content: newAnnouncement.content,
         category: newAnnouncement.category,
         date: new Date().toISOString().split("T")[0],
-        author: "Admin",
+        author: currentStaffMember?.name || "Admin",
       }
       setAnnouncements([announcement, ...announcements])
       setNewAnnouncement({ title: "", content: "", category: "" })
@@ -263,7 +270,7 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
               </nav>
               {isLoggedIn ? (
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm">Admin</span>
+                  <span className="text-sm">{currentStaffMember?.name || "Admin"}</span>
                   {!viewAsStudent && (
                     <Button
                       variant="outline"
@@ -346,24 +353,24 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
         </div>
       )}
 
-      {/* Phone Verification Modal */}
-      {showPhoneVerification && (
+      {/* Email Verification Modal */}
+      {showEmailVerification && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <Card className="w-96">
             <CardHeader>
-              <CardTitle>Two-Factor Authentication</CardTitle>
+              <CardTitle>Staff Email Verification</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="phone">Phone Number</Label>
+                <Label htmlFor="email">Staff Email Address</Label>
                 <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="(555) 123-4567"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  id="email"
+                  type="email"
+                  placeholder="your.name@cms.k12.nc.us"
+                  value={staffEmail}
+                  onChange={(e) => setStaffEmail(e.target.value)}
                 />
-                <Button onClick={handlePhoneVerification} className="mt-2 w-full" disabled={!phoneNumber}>
+                <Button onClick={handleEmailVerification} className="mt-2 w-full" disabled={!staffEmail}>
                   Send Verification Code
                 </Button>
               </div>
@@ -383,10 +390,11 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
                     <Button
                       variant="outline"
                       onClick={() => {
-                        setShowPhoneVerification(false)
-                        setPhoneNumber("")
+                        setShowEmailVerification(false)
+                        setStaffEmail("")
                         setVerificationCode("")
                         setSentCode("")
+                        setCurrentStaffMember(null)
                       }}
                       className="flex-1"
                     >
