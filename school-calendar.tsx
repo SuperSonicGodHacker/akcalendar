@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, ChevronRight, BookOpen, LogIn, LogOut, Plus, Edit } from "lucide-react"
+import { ChevronLeft, ChevronRight, LogIn, LogOut, Plus, Edit } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import Image from "next/image"
 
 const eventCategories = [
   { id: "sports", label: "Sports", checked: true, color: "bg-red-100 text-red-800 border-red-200" },
@@ -695,31 +696,37 @@ export default function Component() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-blue-900 text-white">
+      <header className="bg-purple-900 text-white">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <BookOpen className="h-8 w-8" />
+              <Image
+                src="/images/ardrey-kell-logo.png"
+                alt="Ardrey Kell High School Logo"
+                width={40}
+                height={40}
+                className="h-10 w-10"
+              />
               <div>
-                <h1 className="text-2xl font-bold">Charlotte-Mecklenburg Schools</h1>
-                <p className="text-blue-200 text-sm">School Events Calendar</p>
+                <h1 className="text-2xl font-bold">Ardrey Kell High School</h1>
+                <p className="text-purple-200 text-sm">School Events Calendar</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
               <nav className="hidden md:flex space-x-6">
-                <a href="#" className="hover:text-blue-200 transition-colors">
+                <a href="#" className="hover:text-purple-200 transition-colors">
                   Home
                 </a>
-                <a href="#" className="hover:text-blue-200 transition-colors">
+                <a href="#" className="hover:text-purple-200 transition-colors">
                   Calendar
                 </a>
-                <a href="#" className="hover:text-blue-200 transition-colors">
+                <a href="#" className="hover:text-purple-200 transition-colors">
                   Announcements
                 </a>
-                <a href="#" className="hover:text-blue-200 transition-colors">
+                <a href="#" className="hover:text-purple-200 transition-colors">
                   About
                 </a>
-                <a href="#" className="hover:text-blue-200 transition-colors">
+                <a href="#" className="hover:text-purple-200 transition-colors">
                   Contact
                 </a>
               </nav>
@@ -799,7 +806,7 @@ export default function Component() {
                         setSelectedCategories((prev) => prev.filter((id) => id !== category.id))
                       }
                     }}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                   />
                   <div className={`w-3 h-3 rounded border ${category.color}`}></div>
                   <span className="text-sm font-medium text-gray-700">{category.label}</span>
@@ -846,7 +853,7 @@ export default function Component() {
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
             {isLoggedIn && (
-              <Button size="sm">
+              <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
                 <Plus className="h-4 w-4 mr-1" />
                 Add Event
               </Button>
@@ -885,7 +892,7 @@ export default function Component() {
                     {abDay && (
                       <div
                         className={`text-xs font-bold px-2 py-1 rounded ${
-                          abDay === "A" ? "bg-blue-500 text-white" : "bg-green-500 text-white"
+                          abDay === "A" ? "bg-purple-500 text-white" : "bg-green-500 text-white"
                         }`}
                       >
                         {abDay}
