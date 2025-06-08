@@ -95,7 +95,8 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
 
   const [newEvent, setNewEvent] = useState({
     title: "",
-    date: "",
+    description: "",
+    date: new Date().toISOString().split("T")[0],
     category: "",
   })
 
@@ -184,6 +185,33 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
       volunteer: "bg-pink-100 text-pink-800",
     }
     return colors[category] || "bg-gray-100 text-gray-800"
+  }
+
+  const handleAddEvent = () => {
+    if (newEvent.title && newEvent.date && newEvent.category) {
+      // Format the event for the calendar
+      const event = {
+        title: newEvent.title,
+        description: newEvent.description,
+        date: newEvent.date,
+        category: newEvent.category,
+      }
+
+      // In a real application, we would save this to a database
+      // For now, we'll just show a success message
+      alert(`Event "${newEvent.title}" added to calendar on ${newEvent.date}`)
+
+      // Reset form and close modal
+      setNewEvent({
+        title: "",
+        description: "",
+        date: new Date().toISOString().split("T")[0],
+        category: "",
+      })
+      setShowAddEvent(false)
+    } else {
+      alert("Please fill in all required fields")
+    }
   }
 
   return (
@@ -394,6 +422,73 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
                   Add Announcement
                 </Button>
                 <Button variant="outline" onClick={() => setShowAddAnnouncement(false)} className="flex-1">
+                  Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Add Event Modal */}
+      {showAddEvent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-96 max-h-[80vh] overflow-y-auto">
+            <CardHeader>
+              <CardTitle>Add New Calendar Event</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="event-title">Event Title</Label>
+                <Input
+                  id="event-title"
+                  value={newEvent.title}
+                  onChange={(e) => setNewEvent((prev) => ({ ...prev, title: e.target.value }))}
+                  placeholder="Enter event title"
+                />
+              </div>
+              <div>
+                <Label htmlFor="event-date">Event Date</Label>
+                <Input
+                  id="event-date"
+                  type="date"
+                  value={newEvent.date}
+                  onChange={(e) => setNewEvent((prev) => ({ ...prev, date: e.target.value }))}
+                />
+              </div>
+              <div>
+                <Label htmlFor="event-category">Category</Label>
+                <Select
+                  value={newEvent.category}
+                  onValueChange={(value) => setNewEvent((prev) => ({ ...prev, category: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.slice(1, 7).map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="event-description">Description</Label>
+                <Textarea
+                  id="event-description"
+                  rows={4}
+                  value={newEvent.description}
+                  onChange={(e) => setNewEvent((prev) => ({ ...prev, description: e.target.value }))}
+                  placeholder="Enter event description"
+                />
+              </div>
+              <div className="flex space-x-2">
+                <Button onClick={handleAddEvent} className="flex-1">
+                  Add Event
+                </Button>
+                <Button variant="outline" onClick={() => setShowAddEvent(false)} className="flex-1">
                   Cancel
                 </Button>
               </div>

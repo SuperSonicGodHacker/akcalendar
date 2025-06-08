@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Image from "next/image"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 
 const eventCategories = [
   { id: "sports", label: "Sports", checked: true, color: "bg-red-100 text-red-800 border-red-200" },
@@ -160,6 +162,13 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     "clubs",
     "special-events",
   ])
+  const [showAddEvent, setShowAddEvent] = useState(false)
+  const [newEvent, setNewEvent] = useState({
+    title: "",
+    description: "",
+    date: new Date().toISOString().split("T")[0],
+    category: "",
+  })
 
   const monthNames = [
     "January",
@@ -263,6 +272,37 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
 
   const handleLogout = () => {
     setIsLoggedIn(false)
+  }
+
+  const handleAddEvent = () => {
+    if (newEvent.title && newEvent.date && newEvent.category) {
+      const event = {
+        date: Number.parseInt(newEvent.date.split("-")[2]),
+        month: Number.parseInt(newEvent.date.split("-")[1]) - 1,
+        year: Number.parseInt(newEvent.date.split("-")[0]),
+        title: newEvent.title,
+        type: newEvent.category,
+        isAdministrative: false,
+        description: newEvent.description,
+      }
+
+      // Add the new event to the events array
+      events.push(event)
+
+      // Reset form and close modal
+      setNewEvent({
+        title: "",
+        description: "",
+        date: new Date().toISOString().split("T")[0],
+        category: "",
+      })
+      setShowAddEvent(false)
+
+      // Alert the user
+      alert("Event added successfully!")
+    } else {
+      alert("Please fill in all required fields")
+    }
   }
 
   const navigateMonth = (direction: "prev" | "next") => {
@@ -567,7 +607,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
             {isLoggedIn && (
-              <Button size="sm" className="bg-purple-600 hover:bg-purple-700">
+              <Button size="sm" className="bg-purple-600 hover:bg-purple-700" onClick={() => setShowAddEvent(true)}>
                 <Plus className="h-4 w-4 mr-1" />
                 Add Event
               </Button>
@@ -648,6 +688,72 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
           </div>
         </div>
       </div>
+      {/* Add Event Modal */}
+      {showAddEvent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-96 max-h-[80vh] overflow-y-auto">
+            <CardHeader>
+              <CardTitle>Add New Calendar Event</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="event-title">Event Title</Label>
+                <Input
+                  id="event-title"
+                  value={newEvent.title}
+                  onChange={(e) => setNewEvent((prev) => ({ ...prev, title: e.target.value }))}
+                  placeholder="Enter event title"
+                />
+              </div>
+              <div>
+                <Label htmlFor="event-date">Event Date</Label>
+                <Input
+                  id="event-date"
+                  type="date"
+                  value={newEvent.date}
+                  onChange={(e) => setNewEvent((prev) => ({ ...prev, date: e.target.value }))}
+                />
+              </div>
+              <div>
+                <Label htmlFor="event-category">Category</Label>
+                <Select
+                  value={newEvent.category}
+                  onValueChange={(value) => setNewEvent((prev) => ({ ...prev, category: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {eventCategories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="event-description">Description</Label>
+                <Textarea
+                  id="event-description"
+                  rows={4}
+                  value={newEvent.description}
+                  onChange={(e) => setNewEvent((prev) => ({ ...prev, description: e.target.value }))}
+                  placeholder="Enter event description"
+                />
+              </div>
+              <div className="flex space-x-2">
+                <Button onClick={handleAddEvent} className="flex-1">
+                  Add Event
+                </Button>
+                <Button variant="outline" onClick={() => setShowAddEvent(false)} className="flex-1">
+                  Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   )
 }
