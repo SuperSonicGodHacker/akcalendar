@@ -30,115 +30,6 @@ const eventCategories = [
   },
 ]
 
-const events = [
-  // Administrative Events (no color coding)
-  {
-    date: 4,
-    month: 6,
-    year: 2025,
-    title: "Independence Day Holiday",
-    type: "administrative",
-    isAdministrative: true,
-  },
-  {
-    date: 18,
-    month: 7,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "administrative",
-    isAdministrative: true,
-  },
-  {
-    date: 19,
-    month: 7,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "administrative",
-    isAdministrative: true,
-  },
-  {
-    date: 20,
-    month: 7,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "administrative",
-    isAdministrative: true,
-  },
-  {
-    date: 21,
-    month: 7,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "administrative",
-    isAdministrative: true,
-  },
-  {
-    date: 22,
-    month: 7,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "administrative",
-    isAdministrative: true,
-  },
-  {
-    date: 25,
-    month: 7,
-    year: 2025,
-    title: "First Day of School",
-    type: "milestones",
-    isAdministrative: true,
-  },
-  // School Activity Events (with colors)
-  {
-    date: 5,
-    month: 8,
-    year: 2025,
-    title: "Football vs. West High",
-    type: "sports",
-    isAdministrative: false,
-  },
-  {
-    date: 12,
-    month: 8,
-    year: 2025,
-    title: "Fall Play Auditions",
-    type: "arts",
-    isAdministrative: false,
-  },
-  {
-    date: 15,
-    month: 8,
-    year: 2025,
-    title: "Band Concert",
-    type: "music",
-    isAdministrative: false,
-  },
-  {
-    date: 20,
-    month: 8,
-    year: 2025,
-    title: "Science Fair",
-    type: "academic-events",
-    isAdministrative: false,
-  },
-  {
-    date: 25,
-    month: 8,
-    year: 2025,
-    title: "Chess Club Meeting",
-    type: "clubs",
-    isAdministrative: false,
-  },
-  {
-    date: 30,
-    month: 8,
-    year: 2025,
-    title: "Homecoming Dance",
-    type: "special-events",
-    isAdministrative: false,
-  },
-]
-
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 interface SchoolCalendarProps {
@@ -172,6 +63,141 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
   const [showEditEvent, setShowEditEvent] = useState(false)
   const [editingEvent, setEditingEvent] = useState<any>(null)
   const [viewAsStudent, setViewAsStudent] = useState(false)
+  const [showViewEvent, setShowViewEvent] = useState(false)
+  const [viewingEvent, setViewingEvent] = useState<any>(null)
+  const [calendarEvents, setCalendarEvents] = useState([
+    // Move the existing events array to state so it can be updated
+    // Administrative Events (no color coding)
+    {
+      id: "admin-1",
+      date: 4,
+      month: 6,
+      year: 2025,
+      title: "Independence Day Holiday",
+      type: "administrative",
+      isAdministrative: true,
+    },
+    {
+      id: "admin-2",
+      date: 18,
+      month: 7,
+      year: 2025,
+      title: "Teacher Workday",
+      type: "administrative",
+      isAdministrative: true,
+    },
+    {
+      id: "admin-3",
+      date: 19,
+      month: 7,
+      year: 2025,
+      title: "Teacher Workday",
+      type: "administrative",
+      isAdministrative: true,
+    },
+    {
+      id: "admin-4",
+      date: 20,
+      month: 7,
+      year: 2025,
+      title: "Teacher Workday",
+      type: "administrative",
+      isAdministrative: true,
+    },
+    {
+      id: "admin-5",
+      date: 21,
+      month: 7,
+      year: 2025,
+      title: "Teacher Workday",
+      type: "administrative",
+      isAdministrative: true,
+    },
+    {
+      id: "admin-6",
+      date: 22,
+      month: 7,
+      year: 2025,
+      title: "Teacher Workday",
+      type: "administrative",
+      isAdministrative: true,
+    },
+    {
+      id: "admin-7",
+      date: 25,
+      month: 7,
+      year: 2025,
+      title: "First Day of School",
+      type: "milestones",
+      isAdministrative: true,
+    },
+    // School Activity Events (with colors)
+    {
+      id: "event-1",
+      date: 5,
+      month: 8,
+      year: 2025,
+      title: "Football vs. West High",
+      type: "sports",
+      isAdministrative: false,
+      description:
+        "Join us for an exciting football game against West High School. Game starts at 7:00 PM at our home stadium. Wear your purple and gold!",
+    },
+    {
+      id: "event-2",
+      date: 12,
+      month: 8,
+      year: 2025,
+      title: "Fall Play Auditions",
+      type: "arts",
+      isAdministrative: false,
+      description:
+        "Auditions for our fall theatrical production. All students welcome to try out. Sign up in the drama room.",
+    },
+    {
+      id: "event-3",
+      date: 15,
+      month: 8,
+      year: 2025,
+      title: "Band Concert",
+      type: "music",
+      isAdministrative: false,
+      description:
+        "Annual fall band concert featuring our marching band and concert band. Free admission for all families.",
+    },
+    {
+      id: "event-4",
+      date: 20,
+      month: 8,
+      year: 2025,
+      title: "Science Fair",
+      type: "academic-events",
+      isAdministrative: false,
+      description:
+        "Student science fair showcasing innovative projects from all grade levels. Judging begins at 9:00 AM.",
+    },
+    {
+      id: "event-5",
+      date: 25,
+      month: 8,
+      year: 2025,
+      title: "Chess Club Meeting",
+      type: "clubs",
+      isAdministrative: false,
+      description: "Weekly chess club meeting in room 204. All skill levels welcome. Snacks provided!",
+    },
+    {
+      id: "event-6",
+      date: 30,
+      month: 8,
+      year: 2025,
+      title: "Homecoming Dance",
+      type: "special-events",
+      isAdministrative: false,
+      description:
+        "Annual homecoming dance in the gymnasium. Tickets available at the main office. Semi-formal attire required.",
+    },
+  ])
 
   const monthNames = [
     "January",
@@ -202,7 +228,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
       return null
     }
 
-    const dateEvents = events.filter(
+    const dateEvents = calendarEvents.filter(
       (event) =>
         event.date === date.getDate() &&
         event.month === date.getMonth() &&
@@ -221,7 +247,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
       const currentDayOfWeek = currentDay.getDay()
 
       if (currentDayOfWeek !== 0 && currentDayOfWeek !== 6) {
-        const currentDayEvents = events.filter(
+        const currentDayEvents = calendarEvents.filter(
           (event) =>
             event.date === currentDay.getDate() &&
             event.month === currentDay.getMonth() &&
@@ -280,6 +306,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
   const handleAddEvent = () => {
     if (newEvent.title && newEvent.date && newEvent.category) {
       const event = {
+        id: `event-${Date.now()}`,
         date: Number.parseInt(newEvent.date.split("-")[2]),
         month: Number.parseInt(newEvent.date.split("-")[1]) - 1,
         year: Number.parseInt(newEvent.date.split("-")[0]),
@@ -289,8 +316,8 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
         description: newEvent.description,
       }
 
-      // Add the new event to the events array
-      events.push(event)
+      // Add the new event to the state
+      setCalendarEvents((prev) => [...prev, event])
 
       // Reset form and close modal
       setNewEvent({
@@ -371,7 +398,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
   }
 
   const getEventsForDate = (date: number) => {
-    const allEvents = events.filter(
+    const allEvents = calendarEvents.filter(
       (event) =>
         event.date === date && event.month === currentDate.getMonth() && event.year === currentDate.getFullYear(),
     )
@@ -384,27 +411,34 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     })
   }
 
+  const handleViewEvent = (event: any) => {
+    setViewingEvent(event)
+    setShowViewEvent(true)
+  }
+
   const handleEditEvent = (event: any, eventIndex: number) => {
-    setEditingEvent({ ...event, index: eventIndex, originalTitle: event.title })
+    setEditingEvent({ ...event, originalId: event.id })
     setShowEditEvent(true)
   }
 
   const handleUpdateEvent = () => {
     if (editingEvent && editingEvent.title && editingEvent.type) {
-      // Find and update the event in the events array
-      const eventToUpdate = events.find(
-        (e, index) =>
-          e.date === editingEvent.date &&
-          e.month === editingEvent.month &&
-          e.year === editingEvent.year &&
-          e.title === editingEvent.originalTitle,
+      // Update the event in the state
+      setCalendarEvents((prev) =>
+        prev.map((event) =>
+          event.id === editingEvent.originalId
+            ? {
+                ...event,
+                title: editingEvent.title,
+                type: editingEvent.type,
+                description: editingEvent.description,
+                date: editingEvent.date,
+                month: editingEvent.month,
+                year: editingEvent.year,
+              }
+            : event,
+        ),
       )
-
-      if (eventToUpdate) {
-        eventToUpdate.title = editingEvent.title
-        eventToUpdate.type = editingEvent.type
-        eventToUpdate.description = editingEvent.description
-      }
 
       setShowEditEvent(false)
       setEditingEvent(null)
@@ -727,6 +761,8 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                               onClick={() => {
                                 if (isLoggedIn && !viewAsStudent && !event.isAdministrative) {
                                   handleEditEvent(event, eventIndex)
+                                } else if (!isLoggedIn || viewAsStudent) {
+                                  handleViewEvent(event)
                                 }
                               }}
                             >
@@ -898,6 +934,47 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                   className="flex-1"
                 >
                   Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+      {/* View Event Modal */}
+      {showViewEvent && viewingEvent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-96 max-h-[80vh] overflow-y-auto">
+            <CardHeader>
+              <CardTitle>{viewingEvent.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Date</Label>
+                <p className="text-sm text-gray-900">
+                  {monthNames[viewingEvent.month]} {viewingEvent.date}, {viewingEvent.year}
+                </p>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-700">Category</Label>
+                <p className="text-sm text-gray-900">
+                  {eventCategories.find((cat) => cat.id === viewingEvent.type)?.label || viewingEvent.type}
+                </p>
+              </div>
+              {viewingEvent.description && (
+                <div>
+                  <Label className="text-sm font-medium text-gray-700">Description</Label>
+                  <p className="text-sm text-gray-900">{viewingEvent.description}</p>
+                </div>
+              )}
+              <div className="flex justify-end">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowViewEvent(false)
+                    setViewingEvent(null)
+                  }}
+                >
+                  Close
                 </Button>
               </div>
             </CardContent>
