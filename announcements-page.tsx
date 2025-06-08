@@ -261,12 +261,9 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
                 >
                   Announcements
                 </button>
-                <a href="#" className="hover:text-purple-200 transition-colors">
-                  About
-                </a>
-                <a href="#" className="hover:text-purple-200 transition-colors">
+                <button onClick={() => onNavigate("contact")} className="hover:text-purple-200 transition-colors">
                   Contact
-                </a>
+                </button>
               </nav>
               {isLoggedIn ? (
                 <div className="flex items-center space-x-2">
