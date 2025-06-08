@@ -16,62 +16,212 @@ const eventCategories = [
 ]
 
 const events = [
-  { date: 1, title: "Football vs. West High", category: "sports", color: "bg-red-100 text-red-800 border-red-200" },
+  // June 2025 events
+  {
+    date: 5,
+    month: 5,
+    year: 2025,
+    title: "Graduation Ceremony",
+    category: "announcements",
+    color: "bg-blue-100 text-blue-800 border-blue-200",
+  },
+  {
+    date: 10,
+    month: 5,
+    year: 2025,
+    title: "Summer Band Camp",
+    category: "music",
+    color: "bg-green-100 text-green-800 border-green-200",
+  },
+  {
+    date: 15,
+    month: 5,
+    year: 2025,
+    title: "Baseball Championship",
+    category: "sports",
+    color: "bg-red-100 text-red-800 border-red-200",
+  },
+
+  // July 2025 events
   {
     date: 4,
-    title: "Labor Day - No School",
+    month: 6,
+    year: 2025,
+    title: "Independence Day - No School",
     category: "announcements",
     color: "bg-gray-100 text-gray-800 border-gray-200",
   },
   {
+    date: 12,
+    month: 6,
+    year: 2025,
+    title: "Summer Theater Workshop",
+    category: "arts",
+    color: "bg-purple-100 text-purple-800 border-purple-200",
+  },
+
+  // August 2025 events
+  {
+    date: 15,
+    month: 7,
+    year: 2025,
+    title: "Back to School Prep",
+    category: "announcements",
+    color: "bg-blue-100 text-blue-800 border-blue-200",
+  },
+  {
+    date: 25,
+    month: 7,
+    year: 2025,
+    title: "Fall Sports Tryouts",
+    category: "sports",
+    color: "bg-red-100 text-red-800 border-red-200",
+  },
+
+  // September 2025 events
+  {
+    date: 1,
+    month: 8,
+    year: 2025,
+    title: "Football vs. West High",
+    category: "sports",
+    color: "bg-red-100 text-red-800 border-red-200",
+  },
+  {
     date: 5,
+    month: 8,
+    year: 2025,
     title: "Science Fair Meeting",
     category: "academic",
     color: "bg-yellow-100 text-yellow-800 border-yellow-200",
   },
-  { date: 7, title: "Band Practice", category: "music", color: "bg-green-100 text-green-800 border-green-200" },
-  { date: 8, title: "Soccer Match", category: "sports", color: "bg-red-100 text-red-800 border-red-200" },
-  { date: 12, title: "Chess Club", category: "clubs", color: "bg-purple-100 text-purple-800 border-purple-200" },
   {
-    date: 14,
+    date: 7,
+    month: 8,
+    year: 2025,
+    title: "Band Practice",
+    category: "music",
+    color: "bg-green-100 text-green-800 border-green-200",
+  },
+  {
+    date: 12,
+    month: 8,
+    year: 2025,
+    title: "Chess Club",
+    category: "clubs",
+    color: "bg-purple-100 text-purple-800 border-purple-200",
+  },
+
+  // October 2025 events
+  {
+    date: 31,
+    month: 9,
+    year: 2025,
+    title: "Halloween Dance",
+    category: "announcements",
+    color: "bg-orange-100 text-orange-800 border-orange-200",
+  },
+  {
+    date: 15,
+    month: 9,
+    year: 2025,
     title: "Fall Play Auditions",
     category: "arts",
     color: "bg-purple-100 text-purple-800 border-purple-200",
   },
-  { date: 15, title: "Football vs. East High", category: "sports", color: "bg-red-100 text-red-800 border-red-200" },
-  { date: 15, title: "Band Concert", category: "music", color: "bg-green-100 text-green-800 border-green-200" },
-  {
-    date: 18,
-    title: "Math Competition",
-    category: "academic",
-    color: "bg-yellow-100 text-yellow-800 border-yellow-200",
-  },
-  { date: 20, title: "Theater Workshop", category: "arts", color: "bg-purple-100 text-purple-800 border-purple-200" },
-  { date: 21, title: "Band Practice", category: "music", color: "bg-green-100 text-green-800 border-green-200" },
-  { date: 22, title: "Football vs. North High", category: "sports", color: "bg-red-100 text-red-800 border-red-200" },
 ]
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 export default function Component() {
   const [activeCategory, setActiveCategory] = useState("all")
-  const [currentMonth, setCurrentMonth] = useState("September 2023")
+  const [currentDate, setCurrentDate] = useState(new Date(2025, 5, 1)) // June 2025 (month is 0-indexed)
 
-  // Generate calendar days for September 2023
-  const calendarDays = []
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ]
 
-  // Previous month days (27-30)
-  for (let i = 27; i <= 30; i++) {
-    calendarDays.push({ date: i, isCurrentMonth: false })
+  const navigateMonth = (direction: "prev" | "next") => {
+    setCurrentDate((prevDate) => {
+      const newDate = new Date(prevDate)
+      if (direction === "prev") {
+        newDate.setMonth(newDate.getMonth() - 1)
+      } else {
+        newDate.setMonth(newDate.getMonth() + 1)
+      }
+      return newDate
+    })
   }
 
-  // Current month days (1-30)
-  for (let i = 1; i <= 30; i++) {
-    calendarDays.push({ date: i, isCurrentMonth: true })
+  const getCurrentMonthYear = () => {
+    return `${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`
+  }
+
+  const getDaysInMonth = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+  }
+
+  const getFirstDayOfMonth = (date: Date) => {
+    return new Date(date.getFullYear(), date.getMonth(), 1).getDay()
+  }
+
+  const generateCalendarDays = () => {
+    const daysInMonth = getDaysInMonth(currentDate)
+    const firstDay = getFirstDayOfMonth(currentDate)
+    const calendarDays = []
+
+    // Previous month days
+    const prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
+    const daysInPrevMonth = getDaysInMonth(prevMonth)
+
+    for (let i = firstDay - 1; i >= 0; i--) {
+      calendarDays.push({
+        date: daysInPrevMonth - i,
+        isCurrentMonth: false,
+        isPrevMonth: true,
+      })
+    }
+
+    // Current month days
+    for (let i = 1; i <= daysInMonth; i++) {
+      calendarDays.push({
+        date: i,
+        isCurrentMonth: true,
+        isPrevMonth: false,
+      })
+    }
+
+    // Next month days to fill the grid
+    const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7
+    const remainingCells = totalCells - (firstDay + daysInMonth)
+
+    for (let i = 1; i <= remainingCells; i++) {
+      calendarDays.push({
+        date: i,
+        isCurrentMonth: false,
+        isPrevMonth: false,
+      })
+    }
+
+    return calendarDays
   }
 
   const getEventsForDate = (date: number) => {
-    return events.filter((event) => event.date === date)
+    return events.filter(
+      (event) =>
+        event.date === date && event.month === currentDate.getMonth() && event.year === currentDate.getFullYear(),
+    )
   }
 
   return (
@@ -133,13 +283,13 @@ export default function Component() {
       <div className="container mx-auto px-4 py-8">
         {/* Calendar Header */}
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">{currentMonth}</h2>
+          <h2 className="text-3xl font-bold text-gray-900">{getCurrentMonthYear()}</h2>
           <div className="flex space-x-2">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => navigateMonth("prev")}>
               <ChevronLeft className="h-4 w-4 mr-1" />
               Previous
             </Button>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" onClick={() => navigateMonth("next")}>
               Next
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
@@ -159,7 +309,7 @@ export default function Component() {
 
           {/* Calendar Days */}
           <div className="grid grid-cols-7">
-            {calendarDays.map((day, index) => (
+            {generateCalendarDays().map((day, index) => (
               <div
                 key={index}
                 className={`min-h-[120px] p-2 border-r border-b last:border-r-0 ${
