@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, LogOut, Plus, Edit } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { fetchEvents, createEvent, updateEvent, type Event } from "@/lib/api"
 
 const eventCategories = [
   { id: "sports", label: "Sports", checked: true, color: "bg-red-100 text-red-800 border-red-200" },
@@ -65,139 +66,9 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
   const [viewAsStudent, setViewAsStudent] = useState(false)
   const [showViewEvent, setShowViewEvent] = useState(false)
   const [viewingEvent, setViewingEvent] = useState<any>(null)
-  const [calendarEvents, setCalendarEvents] = useState([
-    // Move the existing events array to state so it can be updated
-    // Administrative Events (no color coding)
-    {
-      id: "admin-1",
-      date: 4,
-      month: 6,
-      year: 2025,
-      title: "Independence Day Holiday",
-      type: "administrative",
-      isAdministrative: true,
-    },
-    {
-      id: "admin-2",
-      date: 18,
-      month: 7,
-      year: 2025,
-      title: "Teacher Workday",
-      type: "administrative",
-      isAdministrative: true,
-    },
-    {
-      id: "admin-3",
-      date: 19,
-      month: 7,
-      year: 2025,
-      title: "Teacher Workday",
-      type: "administrative",
-      isAdministrative: true,
-    },
-    {
-      id: "admin-4",
-      date: 20,
-      month: 7,
-      year: 2025,
-      title: "Teacher Workday",
-      type: "administrative",
-      isAdministrative: true,
-    },
-    {
-      id: "admin-5",
-      date: 21,
-      month: 7,
-      year: 2025,
-      title: "Teacher Workday",
-      type: "administrative",
-      isAdministrative: true,
-    },
-    {
-      id: "admin-6",
-      date: 22,
-      month: 7,
-      year: 2025,
-      title: "Teacher Workday",
-      type: "administrative",
-      isAdministrative: true,
-    },
-    {
-      id: "admin-7",
-      date: 25,
-      month: 7,
-      year: 2025,
-      title: "First Day of School",
-      type: "milestones",
-      isAdministrative: true,
-    },
-    // School Activity Events (with colors)
-    {
-      id: "event-1",
-      date: 5,
-      month: 8,
-      year: 2025,
-      title: "Football vs. West High",
-      type: "sports",
-      isAdministrative: false,
-      description:
-        "Join us for an exciting football game against West High School. Game starts at 7:00 PM at our home stadium. Wear your purple and gold!",
-    },
-    {
-      id: "event-2",
-      date: 12,
-      month: 8,
-      year: 2025,
-      title: "Fall Play Auditions",
-      type: "arts",
-      isAdministrative: false,
-      description:
-        "Auditions for our fall theatrical production. All students welcome to try out. Sign up in the drama room.",
-    },
-    {
-      id: "event-3",
-      date: 15,
-      month: 8,
-      year: 2025,
-      title: "Band Concert",
-      type: "music",
-      isAdministrative: false,
-      description:
-        "Annual fall band concert featuring our marching band and concert band. Free admission for all families.",
-    },
-    {
-      id: "event-4",
-      date: 20,
-      month: 8,
-      year: 2025,
-      title: "Science Fair",
-      type: "academic-events",
-      isAdministrative: false,
-      description:
-        "Student science fair showcasing innovative projects from all grade levels. Judging begins at 9:00 AM.",
-    },
-    {
-      id: "event-5",
-      date: 25,
-      month: 8,
-      year: 2025,
-      title: "Chess Club Meeting",
-      type: "clubs",
-      isAdministrative: false,
-      description: "Weekly chess club meeting in room 204. All skill levels welcome. Snacks provided!",
-    },
-    {
-      id: "event-6",
-      date: 30,
-      month: 8,
-      year: 2025,
-      title: "Homecoming Dance",
-      type: "special-events",
-      isAdministrative: false,
-      description:
-        "Annual homecoming dance in the gymnasium. Tickets available at the main office. Semi-formal attire required.",
-    },
-  ])
+  const [calendarEvents, setCalendarEvents] = useState<Event[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const monthNames = [
     "January",
@@ -213,6 +84,23 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     "November",
     "December",
   ]
+
+  // Load events from backend on component mount
+  useEffect(() => {
+    loadEvents()
+  }, [])
+
+  const loadEvents = async () => {
+    setIsLoading(true)
+    try {
+      const events = await fetchEvents()
+      setCalendarEvents(events)
+    } catch (error) {
+      console.error("Failed to load events:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   // A/B Day Logic
   const getABDay = (date: Date) => {
@@ -303,33 +191,43 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     setIsLoggedIn(false)
   }
 
-  const handleAddEvent = () => {
+  const handleAddEvent = async () => {
     if (newEvent.title && newEvent.date && newEvent.category) {
-      const event = {
-        id: `event-${Date.now()}`,
-        date: Number.parseInt(newEvent.date.split("-")[2]),
-        month: Number.parseInt(newEvent.date.split("-")[1]) - 1,
-        year: Number.parseInt(newEvent.date.split("-")[0]),
-        title: newEvent.title,
-        type: newEvent.category,
-        isAdministrative: false,
-        description: newEvent.description,
+      setIsSubmitting(true)
+      try {
+        const event = {
+          date: Number.parseInt(newEvent.date.split("-")[2]),
+          month: Number.parseInt(newEvent.date.split("-")[1]) - 1,
+          year: Number.parseInt(newEvent.date.split("-")[0]),
+          title: newEvent.title,
+          type: newEvent.category,
+          isAdministrative: false,
+          description: newEvent.description,
+        }
+
+        const createdEvent = await createEvent(event)
+        if (createdEvent) {
+          // Reload events to get the latest data
+          await loadEvents()
+
+          // Reset form and close modal
+          setNewEvent({
+            title: "",
+            description: "",
+            date: new Date().toISOString().split("T")[0],
+            category: "",
+          })
+          setShowAddEvent(false)
+          alert("Event added successfully!")
+        } else {
+          alert("Failed to add event. Please try again.")
+        }
+      } catch (error) {
+        console.error("Error adding event:", error)
+        alert("Failed to add event. Please try again.")
+      } finally {
+        setIsSubmitting(false)
       }
-
-      // Add the new event to the state
-      setCalendarEvents((prev) => [...prev, event])
-
-      // Reset form and close modal
-      setNewEvent({
-        title: "",
-        description: "",
-        date: new Date().toISOString().split("T")[0],
-        category: "",
-      })
-      setShowAddEvent(false)
-
-      // Alert the user
-      alert("Event added successfully!")
     } else {
       alert("Please fill in all required fields")
     }
@@ -417,35 +315,44 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
   }
 
   const handleEditEvent = (event: any, eventIndex: number) => {
-    setEditingEvent({ ...event, originalId: event.id })
+    setEditingEvent({ ...event })
     setShowEditEvent(true)
   }
 
-  const handleUpdateEvent = () => {
+  const handleUpdateEvent = async () => {
     if (editingEvent && editingEvent.title && editingEvent.type) {
-      // Update the event in the state
-      setCalendarEvents((prev) =>
-        prev.map((event) =>
-          event.id === editingEvent.originalId
-            ? {
-                ...event,
-                title: editingEvent.title,
-                type: editingEvent.type,
-                description: editingEvent.description,
-                date: editingEvent.date,
-                month: editingEvent.month,
-                year: editingEvent.year,
-              }
-            : event,
-        ),
-      )
-
-      setShowEditEvent(false)
-      setEditingEvent(null)
-      alert("Event updated successfully!")
+      setIsSubmitting(true)
+      try {
+        const updatedEvent = await updateEvent(editingEvent.id, editingEvent)
+        if (updatedEvent) {
+          // Reload events to get the latest data
+          await loadEvents()
+          setShowEditEvent(false)
+          setEditingEvent(null)
+          alert("Event updated successfully!")
+        } else {
+          alert("Failed to update event. Please try again.")
+        }
+      } catch (error) {
+        console.error("Error updating event:", error)
+        alert("Failed to update event. Please try again.")
+      } finally {
+        setIsSubmitting(false)
+      }
     } else {
       alert("Please fill in all required fields")
     }
+  }
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading calendar...</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -808,6 +715,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                   value={newEvent.title}
                   onChange={(e) => setNewEvent((prev) => ({ ...prev, title: e.target.value }))}
                   placeholder="Enter event title"
+                  disabled={isSubmitting}
                 />
               </div>
               <div>
@@ -817,6 +725,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                   type="date"
                   value={newEvent.date}
                   onChange={(e) => setNewEvent((prev) => ({ ...prev, date: e.target.value }))}
+                  disabled={isSubmitting}
                 />
               </div>
               <div>
@@ -824,6 +733,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                 <Select
                   value={newEvent.category}
                   onValueChange={(value) => setNewEvent((prev) => ({ ...prev, category: value }))}
+                  disabled={isSubmitting}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
@@ -845,13 +755,19 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                   value={newEvent.description}
                   onChange={(e) => setNewEvent((prev) => ({ ...prev, description: e.target.value }))}
                   placeholder="Enter event description"
+                  disabled={isSubmitting}
                 />
               </div>
               <div className="flex space-x-2">
-                <Button onClick={handleAddEvent} className="flex-1">
-                  Add Event
+                <Button onClick={handleAddEvent} className="flex-1" disabled={isSubmitting}>
+                  {isSubmitting ? "Adding..." : "Add Event"}
                 </Button>
-                <Button variant="outline" onClick={() => setShowAddEvent(false)} className="flex-1">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowAddEvent(false)}
+                  className="flex-1"
+                  disabled={isSubmitting}
+                >
                   Cancel
                 </Button>
               </div>
@@ -874,6 +790,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                   value={editingEvent.title}
                   onChange={(e) => setEditingEvent((prev: any) => ({ ...prev, title: e.target.value }))}
                   placeholder="Enter event title"
+                  disabled={isSubmitting}
                 />
               </div>
               <div>
@@ -891,6 +808,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                       date: day,
                     }))
                   }}
+                  disabled={isSubmitting}
                 />
               </div>
               <div>
@@ -898,6 +816,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                 <Select
                   value={editingEvent.type}
                   onValueChange={(value) => setEditingEvent((prev: any) => ({ ...prev, type: value }))}
+                  disabled={isSubmitting}
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
@@ -919,11 +838,12 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                   value={editingEvent.description || ""}
                   onChange={(e) => setEditingEvent((prev: any) => ({ ...prev, description: e.target.value }))}
                   placeholder="Enter event description"
+                  disabled={isSubmitting}
                 />
               </div>
               <div className="flex space-x-2">
-                <Button onClick={handleUpdateEvent} className="flex-1">
-                  Update Event
+                <Button onClick={handleUpdateEvent} className="flex-1" disabled={isSubmitting}>
+                  {isSubmitting ? "Updating..." : "Update Event"}
                 </Button>
                 <Button
                   variant="outline"
@@ -932,6 +852,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                     setEditingEvent(null)
                   }}
                   className="flex-1"
+                  disabled={isSubmitting}
                 >
                   Cancel
                 </Button>
