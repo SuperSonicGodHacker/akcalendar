@@ -87,16 +87,20 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
 
   // Load events from backend on component mount
   useEffect(() => {
+    console.log("Component mounted, loading events...")
     loadEvents()
   }, [])
 
   const loadEvents = async () => {
+    console.log("Loading events from backend...")
     setIsLoading(true)
     try {
       const events = await fetchEvents()
+      console.log("Loaded events:", events)
       setCalendarEvents(events)
     } catch (error) {
       console.error("Failed to load events:", error)
+      alert("Failed to load events. Please refresh the page.")
     } finally {
       setIsLoading(false)
     }
@@ -195,6 +199,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     if (newEvent.title && newEvent.date && newEvent.category) {
       setIsSubmitting(true)
       try {
+        console.log("Adding new event:", newEvent)
         const event = {
           date: Number.parseInt(newEvent.date.split("-")[2]),
           month: Number.parseInt(newEvent.date.split("-")[1]) - 1,
@@ -207,6 +212,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
 
         const createdEvent = await createEvent(event)
         if (createdEvent) {
+          console.log("Event created successfully:", createdEvent)
           // Reload events to get the latest data
           await loadEvents()
 
@@ -323,8 +329,10 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     if (editingEvent && editingEvent.title && editingEvent.type) {
       setIsSubmitting(true)
       try {
+        console.log("Updating event:", editingEvent)
         const updatedEvent = await updateEvent(editingEvent.id, editingEvent)
         if (updatedEvent) {
+          console.log("Event updated successfully:", updatedEvent)
           // Reload events to get the latest data
           await loadEvents()
           setShowEditEvent(false)
