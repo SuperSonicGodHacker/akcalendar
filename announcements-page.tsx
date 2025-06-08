@@ -35,6 +35,7 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
   const [verificationCode, setVerificationCode] = useState("")
   const [sentCode, setSentCode] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
+  const [viewAsStudent, setViewAsStudent] = useState(false)
 
   const [announcements, setAnnouncements] = useState<Announcement[]>([
     {
@@ -263,7 +264,32 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
               {isLoggedIn ? (
                 <div className="flex items-center space-x-2">
                   <span className="text-sm">Admin</span>
-                  <Button variant="outline" size="sm" onClick={handleLogout}>
+                  {!viewAsStudent && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setViewAsStudent(true)}
+                      className="bg-white text-purple-900 hover:bg-gray-100"
+                    >
+                      View as Student
+                    </Button>
+                  )}
+                  {viewAsStudent && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setViewAsStudent(false)}
+                      className="bg-white text-purple-900 hover:bg-gray-100"
+                    >
+                      View as Admin
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleLogout}
+                    className="bg-white text-purple-900 hover:bg-gray-100"
+                  >
                     Logout
                   </Button>
                 </div>
@@ -507,7 +533,7 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
             </Button>
             <h2 className="text-3xl font-bold text-gray-900">Announcements</h2>
           </div>
-          {isLoggedIn && (
+          {isLoggedIn && !viewAsStudent && (
             <div className="flex space-x-2">
               <Button onClick={() => setShowAddAnnouncement(true)} className="bg-purple-600 hover:bg-purple-700">
                 <Plus className="h-4 w-4 mr-2" />
@@ -566,7 +592,7 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
                         </div>
                         <CardTitle className="text-xl">{announcement.title}</CardTitle>
                       </div>
-                      {isLoggedIn && (
+                      {isLoggedIn && !viewAsStudent && (
                         <div className="flex space-x-1">
                           <Button size="sm" variant="ghost">
                             <Edit className="h-4 w-4" />

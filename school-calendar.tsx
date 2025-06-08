@@ -169,6 +169,9 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     date: new Date().toISOString().split("T")[0],
     category: "",
   })
+  const [showEditEvent, setShowEditEvent] = useState(false)
+  const [editingEvent, setEditingEvent] = useState<any>(null)
+  const [viewAsStudent, setViewAsStudent] = useState(false)
 
   const monthNames = [
     "January",
@@ -381,6 +384,36 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     })
   }
 
+  const handleEditEvent = (event: any, eventIndex: number) => {
+    setEditingEvent({ ...event, index: eventIndex, originalTitle: event.title })
+    setShowEditEvent(true)
+  }
+
+  const handleUpdateEvent = () => {
+    if (editingEvent && editingEvent.title && editingEvent.type) {
+      // Find and update the event in the events array
+      const eventToUpdate = events.find(
+        (e, index) =>
+          e.date === editingEvent.date &&
+          e.month === editingEvent.month &&
+          e.year === editingEvent.year &&
+          e.title === editingEvent.originalTitle,
+      )
+
+      if (eventToUpdate) {
+        eventToUpdate.title = editingEvent.title
+        eventToUpdate.type = editingEvent.type
+        eventToUpdate.description = editingEvent.description
+      }
+
+      setShowEditEvent(false)
+      setEditingEvent(null)
+      alert("Event updated successfully!")
+    } else {
+      alert("Please fill in all required fields")
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -430,7 +463,32 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
               {isLoggedIn ? (
                 <div className="flex items-center space-x-2">
                   <span className="text-sm">Admin</span>
-                  <Button variant="outline" size="sm" onClick={handleLogout}>
+                  {!viewAsStudent && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setViewAsStudent(true)}
+                      className="bg-white text-purple-900 hover:bg-gray-100"
+                    >
+                      View as Student
+                    </Button>
+                  )}
+                  {viewAsStudent && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setViewAsStudent(false)}
+                      className="bg-white text-purple-900 hover:bg-gray-100"
+                    >
+                      View as Admin
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleLogout}
+                    className="bg-white text-purple-900 hover:bg-gray-100"
+                  >
                     <LogOut className="h-4 w-4 mr-1" />
                     Logout
                   </Button>
@@ -606,7 +664,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
               Next
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
-            {isLoggedIn && (
+            {isLoggedIn && !viewAsStudent && (
               <Button size="sm" className="bg-purple-600 hover:bg-purple-700" onClick={() => setShowAddEvent(true)}>
                 <Plus className="h-4 w-4 mr-1" />
                 Add Event
@@ -665,15 +723,26 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                           <div key={eventIndex} className="relative group">
                             <Badge
                               variant="secondary"
-                              className={`text-xs px-2 py-1 block w-full text-left ${eventColor} border`}
+                              className={`text-xs px-2 py-1 block w-full text-left cursor-pointer ${eventColor} border`}
+                              onClick={() => {
+                                if (isLoggedIn && !viewAsStudent && !event.isAdministrative) {
+                                  handleEditEvent(event, eventIndex)
+                                }
+                              }}
                             >
                               {event.title}
                             </Badge>
-                            {isLoggedIn && (
+                            {isLoggedIn && !viewAsStudent && (
                               <Button
                                 size="sm"
                                 variant="ghost"
                                 className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 h-6 w-6 p-0"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  if (!event.isAdministrative) {
+                                    handleEditEvent(event, eventIndex)
+                                  }
+                                }}
                               >
                                 <Edit className="h-3 w-3" />
                               </Button>
@@ -747,6 +816,87 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                   Add Event
                 </Button>
                 <Button variant="outline" onClick={() => setShowAddEvent(false)} className="flex-1">
+                  Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+      {/* Edit Event Modal */}
+      {showEditEvent && editingEvent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-96 max-h-[80vh] overflow-y-auto">
+            <CardHeader>
+              <CardTitle>Edit Calendar Event</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="edit-event-title">Event Title</Label>
+                <Input
+                  id="edit-event-title"
+                  value={editingEvent.title}
+                  onChange={(e) => setEditingEvent((prev: any) => ({ ...prev, title: e.target.value }))}
+                  placeholder="Enter event title"
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit-event-date">Event Date</Label>
+                <Input
+                  id="edit-event-date"
+                  type="date"
+                  value={`${editingEvent.year}-${String(editingEvent.month + 1).padStart(2, "0")}-${String(editingEvent.date).padStart(2, "0")}`}
+                  onChange={(e) => {
+                    const [year, month, day] = e.target.value.split("-").map(Number)
+                    setEditingEvent((prev: any) => ({
+                      ...prev,
+                      year,
+                      month: month - 1,
+                      date: day,
+                    }))
+                  }}
+                />
+              </div>
+              <div>
+                <Label htmlFor="edit-event-category">Category</Label>
+                <Select
+                  value={editingEvent.type}
+                  onValueChange={(value) => setEditingEvent((prev: any) => ({ ...prev, type: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {eventCategories.map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="edit-event-description">Description</Label>
+                <Textarea
+                  id="edit-event-description"
+                  rows={4}
+                  value={editingEvent.description || ""}
+                  onChange={(e) => setEditingEvent((prev: any) => ({ ...prev, description: e.target.value }))}
+                  placeholder="Enter event description"
+                />
+              </div>
+              <div className="flex space-x-2">
+                <Button onClick={handleUpdateEvent} className="flex-1">
+                  Update Event
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowEditEvent(false)
+                    setEditingEvent(null)
+                  }}
+                  className="flex-1"
+                >
                   Cancel
                 </Button>
               </div>
