@@ -10,8 +10,8 @@ import { Label } from "@/components/ui/label"
 
 const eventCategories = [
   { id: "sports", label: "Sports", checked: true, color: "bg-red-100 text-red-800 border-red-200" },
-  { id: "arts", label: "Arts & Theater", checked: true, color: "bg-purple-100 text-purple-800 border-purple-200" },
-  { id: "music", label: "Music & Band", checked: true, color: "bg-green-100 text-green-800 border-green-200" },
+  { id: "arts", label: "Theatre", checked: true, color: "bg-purple-100 text-purple-800 border-purple-200" },
+  { id: "music", label: "Musical Arts", checked: true, color: "bg-green-100 text-green-800 border-green-200" },
   {
     id: "academic-events",
     label: "Academic Events",
