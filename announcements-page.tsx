@@ -1,0 +1,498 @@
+"use client"
+
+import { useState } from "react"
+import { ArrowLeft, Plus, Edit, Trash2, Calendar, Briefcase, Heart, Users } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
+
+interface Announcement {
+  id: string
+  title: string
+  content: string
+  category: string
+  date: string
+  author: string
+}
+
+interface AnnouncementsPageProps {
+  onNavigate: (page: string) => void
+}
+
+export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)
+  const [showPhoneVerification, setShowPhoneVerification] = useState(false)
+  const [showAddAnnouncement, setShowAddAnnouncement] = useState(false)
+  const [showAddEvent, setShowAddEvent] = useState(false)
+  const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" })
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [verificationCode, setVerificationCode] = useState("")
+  const [sentCode, setSentCode] = useState("")
+  const [selectedCategory, setSelectedCategory] = useState("all")
+
+  const [announcements, setAnnouncements] = useState<Announcement[]>([
+    {
+      id: "1",
+      title: "Homecoming Game vs. Providence Panthers",
+      content: "Join us for our homecoming football game this Friday at 7:00 PM. Wear your purple and gold!",
+      category: "sports",
+      date: "2025-06-10",
+      author: "Coach Johnson",
+    },
+    {
+      id: "2",
+      title: "Fall Drama Production Auditions",
+      content: "Auditions for 'Romeo and Juliet' will be held next week. Sign up in the drama room.",
+      category: "theatre",
+      date: "2025-06-09",
+      author: "Ms. Williams",
+    },
+    {
+      id: "3",
+      title: "Band Concert Fundraiser",
+      content: "Support our marching band by attending our concert fundraiser on Saturday evening.",
+      category: "musical-arts",
+      date: "2025-06-08",
+      author: "Mr. Davis",
+    },
+    {
+      id: "4",
+      title: "Summer Internship at Local Tech Company",
+      content: "Exciting opportunity for rising seniors interested in computer science and technology.",
+      category: "internships",
+      date: "2025-06-07",
+      author: "Career Center",
+    },
+    {
+      id: "5",
+      title: "Part-time Positions at Community Center",
+      content: "The Charlotte Community Center is hiring part-time staff for summer programs.",
+      category: "jobs",
+      date: "2025-06-06",
+      author: "Career Center",
+    },
+    {
+      id: "6",
+      title: "Volunteer at Animal Shelter",
+      content: "Help care for animals at the local shelter. Great for community service hours.",
+      category: "volunteer",
+      date: "2025-06-05",
+      author: "Service Learning",
+    },
+  ])
+
+  const [newAnnouncement, setNewAnnouncement] = useState({
+    title: "",
+    content: "",
+    category: "",
+  })
+
+  const [newEvent, setNewEvent] = useState({
+    title: "",
+    date: "",
+    category: "",
+  })
+
+  const categories = [
+    { id: "all", label: "All Announcements", icon: Users },
+    { id: "sports", label: "Sports", icon: Users },
+    { id: "theatre", label: "Theatre", icon: Users },
+    { id: "musical-arts", label: "Musical Arts", icon: Users },
+    { id: "academic-events", label: "Academic Events", icon: Users },
+    { id: "clubs", label: "Clubs", icon: Users },
+    { id: "special-events", label: "Special Events", icon: Users },
+    { id: "internships", label: "Internships", icon: Briefcase },
+    { id: "jobs", label: "Job Opportunities", icon: Briefcase },
+    { id: "volunteer", label: "Volunteer Opportunities", icon: Heart },
+  ]
+
+  const handleLogin = () => {
+    if (loginCredentials.username === "akadministrator2025" && loginCredentials.password === "akadminpassword2025") {
+      setShowLogin(false)
+      setShowPhoneVerification(true)
+      setLoginCredentials({ username: "", password: "" })
+    } else {
+      alert("Invalid credentials")
+    }
+  }
+
+  const handlePhoneVerification = () => {
+    if (phoneNumber.length >= 10) {
+      const code = Math.floor(100000 + Math.random() * 900000).toString()
+      setSentCode(code)
+      alert(`Verification code sent to ${phoneNumber}: ${code}`)
+    } else {
+      alert("Please enter a valid phone number")
+    }
+  }
+
+  const handleVerificationSubmit = () => {
+    if (verificationCode === sentCode) {
+      setIsLoggedIn(true)
+      setShowPhoneVerification(false)
+      setPhoneNumber("")
+      setVerificationCode("")
+      setSentCode("")
+    } else {
+      alert("Invalid verification code")
+    }
+  }
+
+  const handleLogout = () => {
+    setIsLoggedIn(false)
+  }
+
+  const handleAddAnnouncement = () => {
+    if (newAnnouncement.title && newAnnouncement.content && newAnnouncement.category) {
+      const announcement: Announcement = {
+        id: Date.now().toString(),
+        title: newAnnouncement.title,
+        content: newAnnouncement.content,
+        category: newAnnouncement.category,
+        date: new Date().toISOString().split("T")[0],
+        author: "Admin",
+      }
+      setAnnouncements([announcement, ...announcements])
+      setNewAnnouncement({ title: "", content: "", category: "" })
+      setShowAddAnnouncement(false)
+    }
+  }
+
+  const handleDeleteAnnouncement = (id: string) => {
+    setAnnouncements(announcements.filter((ann) => ann.id !== id))
+  }
+
+  const filteredAnnouncements =
+    selectedCategory === "all" ? announcements : announcements.filter((ann) => ann.category === selectedCategory)
+
+  const getCategoryColor = (category: string) => {
+    const colors: { [key: string]: string } = {
+      sports: "bg-red-100 text-red-800",
+      theatre: "bg-purple-100 text-purple-800",
+      "musical-arts": "bg-green-100 text-green-800",
+      "academic-events": "bg-blue-100 text-blue-800",
+      clubs: "bg-yellow-100 text-yellow-800",
+      "special-events": "bg-orange-100 text-orange-800",
+      internships: "bg-indigo-100 text-indigo-800",
+      jobs: "bg-teal-100 text-teal-800",
+      volunteer: "bg-pink-100 text-pink-800",
+    }
+    return colors[category] || "bg-gray-100 text-gray-800"
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="bg-purple-900 text-white">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Image
+                src="/images/ardrey-kell-logo.png"
+                alt="Ardrey Kell High School Logo"
+                width={40}
+                height={40}
+                className="h-10 w-10"
+              />
+              <div>
+                <h1 className="text-2xl font-bold">Ardrey Kell High School</h1>
+                <p className="text-purple-200 text-sm">Announcements</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <nav className="hidden md:flex space-x-6">
+                <button
+                  onClick={() => onNavigate("calendar")}
+                  className="hover:text-purple-200 transition-colors font-medium"
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => onNavigate("calendar")}
+                  className="hover:text-purple-200 transition-colors font-medium"
+                >
+                  Calendar
+                </button>
+                <button
+                  onClick={() => onNavigate("announcements")}
+                  className="hover:text-purple-200 transition-colors font-medium text-purple-200"
+                >
+                  Announcements
+                </button>
+                <a href="#" className="hover:text-purple-200 transition-colors">
+                  About
+                </a>
+                <a href="#" className="hover:text-purple-200 transition-colors">
+                  Contact
+                </a>
+              </nav>
+              {isLoggedIn ? (
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm">Admin</span>
+                  <Button variant="outline" size="sm" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowLogin(true)}
+                  className="bg-white text-purple-900 hover:bg-gray-100"
+                >
+                  Admin Login
+                </Button>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Login Modal */}
+      {showLogin && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-96">
+            <CardHeader>
+              <CardTitle>Admin Login</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  value={loginCredentials.username}
+                  onChange={(e) => setLoginCredentials((prev) => ({ ...prev, username: e.target.value }))}
+                />
+              </div>
+              <div>
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={loginCredentials.password}
+                  onChange={(e) => setLoginCredentials((prev) => ({ ...prev, password: e.target.value }))}
+                />
+              </div>
+              <div className="flex space-x-2">
+                <Button onClick={handleLogin} className="flex-1">
+                  Login
+                </Button>
+                <Button variant="outline" onClick={() => setShowLogin(false)} className="flex-1">
+                  Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Phone Verification Modal */}
+      {showPhoneVerification && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-96">
+            <CardHeader>
+              <CardTitle>Two-Factor Authentication</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="(555) 123-4567"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+                <Button onClick={handlePhoneVerification} className="mt-2 w-full" disabled={!phoneNumber}>
+                  Send Verification Code
+                </Button>
+              </div>
+              {sentCode && (
+                <div>
+                  <Label htmlFor="verification">Verification Code</Label>
+                  <Input
+                    id="verification"
+                    placeholder="Enter 6-digit code"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
+                  />
+                  <div className="flex space-x-2 mt-2">
+                    <Button onClick={handleVerificationSubmit} className="flex-1">
+                      Verify
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setShowPhoneVerification(false)
+                        setPhoneNumber("")
+                        setVerificationCode("")
+                        setSentCode("")
+                      }}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Add Announcement Modal */}
+      {showAddAnnouncement && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-96 max-h-[80vh] overflow-y-auto">
+            <CardHeader>
+              <CardTitle>Add New Announcement</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="title">Title</Label>
+                <Input
+                  id="title"
+                  value={newAnnouncement.title}
+                  onChange={(e) => setNewAnnouncement((prev) => ({ ...prev, title: e.target.value }))}
+                />
+              </div>
+              <div>
+                <Label htmlFor="category">Category</Label>
+                <Select
+                  value={newAnnouncement.category}
+                  onValueChange={(value) => setNewAnnouncement((prev) => ({ ...prev, category: value }))}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categories.slice(1).map((category) => (
+                      <SelectItem key={category.id} value={category.id}>
+                        {category.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label htmlFor="content">Content</Label>
+                <Textarea
+                  id="content"
+                  rows={4}
+                  value={newAnnouncement.content}
+                  onChange={(e) => setNewAnnouncement((prev) => ({ ...prev, content: e.target.value }))}
+                />
+              </div>
+              <div className="flex space-x-2">
+                <Button onClick={handleAddAnnouncement} className="flex-1">
+                  Add Announcement
+                </Button>
+                <Button variant="outline" onClick={() => setShowAddAnnouncement(false)} className="flex-1">
+                  Cancel
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-4">
+            <Button variant="outline" onClick={() => onNavigate("calendar")}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Calendar
+            </Button>
+            <h2 className="text-3xl font-bold text-gray-900">Announcements</h2>
+          </div>
+          {isLoggedIn && (
+            <div className="flex space-x-2">
+              <Button onClick={() => setShowAddAnnouncement(true)} className="bg-purple-600 hover:bg-purple-700">
+                <Plus className="h-4 w-4 mr-2" />
+                Add Announcement
+              </Button>
+              <Button onClick={() => setShowAddEvent(true)} variant="outline">
+                <Calendar className="h-4 w-4 mr-2" />
+                Add Event
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Categories Sidebar */}
+          <div className="lg:col-span-1">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Categories</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {categories.map((category) => {
+                  const Icon = category.icon
+                  return (
+                    <button
+                      key={category.id}
+                      onClick={() => setSelectedCategory(category.id)}
+                      className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-left transition-colors ${
+                        selectedCategory === category.id
+                          ? "bg-purple-100 text-purple-800"
+                          : "hover:bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      <span className="text-sm font-medium">{category.label}</span>
+                    </button>
+                  )
+                })}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Announcements List */}
+          <div className="lg:col-span-3">
+            <div className="space-y-4">
+              {filteredAnnouncements.map((announcement) => (
+                <Card key={announcement.id}>
+                  <CardHeader>
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Badge className={getCategoryColor(announcement.category)}>
+                            {categories.find((cat) => cat.id === announcement.category)?.label}
+                          </Badge>
+                          <span className="text-sm text-gray-500">{announcement.date}</span>
+                        </div>
+                        <CardTitle className="text-xl">{announcement.title}</CardTitle>
+                      </div>
+                      {isLoggedIn && (
+                        <div className="flex space-x-1">
+                          <Button size="sm" variant="ghost">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button size="sm" variant="ghost" onClick={() => handleDeleteAnnouncement(announcement.id)}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-700 mb-2">{announcement.content}</p>
+                    <p className="text-sm text-gray-500">Posted by: {announcement.author}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

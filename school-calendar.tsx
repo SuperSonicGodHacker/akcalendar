@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, ChevronRight, LogIn, LogOut, Plus, Edit } from "lucide-react"
+import { ChevronLeft, ChevronRight, LogOut, Plus, Edit } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -27,15 +27,6 @@ const eventCategories = [
     color: "bg-orange-100 text-orange-800 border-orange-200",
   },
 ]
-
-const eventTypeColors = {
-  workdays: "bg-blue-100 text-blue-800 border-blue-200",
-  holidays: "bg-red-100 text-red-800 border-red-200",
-  breaks: "bg-purple-100 text-purple-800 border-purple-200",
-  academic: "bg-green-100 text-green-800 border-green-200",
-  "early-release": "bg-orange-100 text-orange-800 border-orange-200",
-  milestones: "bg-yellow-100 text-yellow-800 border-yellow-200",
-}
 
 const events = [
   // Administrative Events (no color coding)
@@ -95,370 +86,6 @@ const events = [
     type: "milestones",
     isAdministrative: true,
   },
-
-  // September 2025
-  {
-    date: 1,
-    month: 8,
-    year: 2025,
-    title: "Labor Day",
-    type: "holidays",
-    isAdministrative: true,
-  },
-  {
-    date: 9,
-    month: 8,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-  {
-    date: 23,
-    month: 8,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-
-  // October 2025
-  {
-    date: 2,
-    month: 9,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-  {
-    date: 8,
-    month: 9,
-    year: 2025,
-    title: "Early Release Day",
-    type: "early-release",
-    isAdministrative: true,
-  },
-  {
-    date: 9,
-    month: 9,
-    year: 2025,
-    title: "Q1 Ends (46 days)",
-    type: "academic",
-    isAdministrative: true,
-  },
-  {
-    date: 31,
-    month: 9,
-    year: 2025,
-    title: "Halloween",
-    type: "holidays",
-    isAdministrative: true,
-  },
-
-  // November 2025
-  {
-    date: 4,
-    month: 10,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-  {
-    date: 11,
-    month: 10,
-    year: 2025,
-    title: "Veterans Day",
-    type: "holidays",
-    isAdministrative: true,
-  },
-  {
-    date: 19,
-    month: 10,
-    year: 2025,
-    title: "Early Release Day",
-    type: "early-release",
-    isAdministrative: true,
-  },
-  {
-    date: 26,
-    month: 10,
-    year: 2025,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-  {
-    date: 27,
-    month: 10,
-    year: 2025,
-    title: "Thanksgiving Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 28,
-    month: 10,
-    year: 2025,
-    title: "Thanksgiving Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-
-  // December 2025
-  {
-    date: 22,
-    month: 11,
-    year: 2025,
-    title: "Winter Break Begins",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 23,
-    month: 11,
-    year: 2025,
-    title: "Winter Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 24,
-    month: 11,
-    year: 2025,
-    title: "Winter Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 25,
-    month: 11,
-    year: 2025,
-    title: "Christmas Day",
-    type: "holidays",
-    isAdministrative: true,
-  },
-  {
-    date: 26,
-    month: 11,
-    year: 2025,
-    title: "Winter Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 29,
-    month: 11,
-    year: 2025,
-    title: "Winter Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 30,
-    month: 11,
-    year: 2025,
-    title: "Winter Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 31,
-    month: 11,
-    year: 2025,
-    title: "New Year's Eve",
-    type: "breaks",
-    isAdministrative: true,
-  },
-
-  // January 2026
-  {
-    date: 1,
-    month: 0,
-    year: 2026,
-    title: "New Year's Day",
-    type: "holidays",
-    isAdministrative: true,
-  },
-  {
-    date: 2,
-    month: 0,
-    year: 2026,
-    title: "Winter Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 19,
-    month: 0,
-    year: 2026,
-    title: "MLK Jr. Day",
-    type: "holidays",
-    isAdministrative: true,
-  },
-  {
-    date: 21,
-    month: 0,
-    year: 2026,
-    title: "Q2 Ends (42 days)",
-    type: "academic",
-    isAdministrative: true,
-  },
-  {
-    date: 23,
-    month: 0,
-    year: 2026,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-
-  // February 2026
-  {
-    date: 11,
-    month: 1,
-    year: 2026,
-    title: "Early Release Day",
-    type: "early-release",
-    isAdministrative: true,
-  },
-  {
-    date: 16,
-    month: 1,
-    year: 2026,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-
-  // March 2026
-  {
-    date: 3,
-    month: 2,
-    year: 2026,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-  {
-    date: 20,
-    month: 2,
-    year: 2026,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-  {
-    date: 27,
-    month: 2,
-    year: 2026,
-    title: "Early Release Day",
-    type: "early-release",
-    isAdministrative: true,
-  },
-
-  // April 2026
-  {
-    date: 2,
-    month: 3,
-    year: 2026,
-    title: "Q3 Ends (47 days)",
-    type: "academic",
-    isAdministrative: true,
-  },
-  {
-    date: 3,
-    month: 3,
-    year: 2026,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-  {
-    date: 6,
-    month: 3,
-    year: 2026,
-    title: "Spring Break Begins",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 7,
-    month: 3,
-    year: 2026,
-    title: "Spring Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 8,
-    month: 3,
-    year: 2026,
-    title: "Spring Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 9,
-    month: 3,
-    year: 2026,
-    title: "Spring Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 10,
-    month: 3,
-    year: 2026,
-    title: "Spring Break",
-    type: "breaks",
-    isAdministrative: true,
-  },
-  {
-    date: 29,
-    month: 3,
-    year: 2026,
-    title: "Early Release Day",
-    type: "early-release",
-    isAdministrative: true,
-  },
-
-  // May 2026
-  {
-    date: 25,
-    month: 4,
-    year: 2026,
-    title: "Memorial Day",
-    type: "holidays",
-    isAdministrative: true,
-  },
-
-  // June 2026
-  {
-    date: 10,
-    month: 5,
-    year: 2026,
-    title: "Last Day of School",
-    type: "milestones",
-    isAdministrative: true,
-  },
-  {
-    date: 11,
-    month: 5,
-    year: 2026,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
-  {
-    date: 12,
-    month: 5,
-    year: 2026,
-    title: "Teacher Workday",
-    type: "workdays",
-    isAdministrative: true,
-  },
   // School Activity Events (with colors)
   {
     date: 5,
@@ -512,12 +139,19 @@ const events = [
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
-export default function Component() {
-  const [activeCategory, setActiveCategory] = useState("all")
+interface SchoolCalendarProps {
+  onNavigate: (page: string) => void
+}
+
+export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date(2025, 5, 1)) // June 2025
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
+  const [showPhoneVerification, setShowPhoneVerification] = useState(false)
   const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" })
+  const [phoneNumber, setPhoneNumber] = useState("")
+  const [verificationCode, setVerificationCode] = useState("")
+  const [sentCode, setSentCode] = useState("")
   const [selectedCategories, setSelectedCategories] = useState([
     "sports",
     "arts",
@@ -547,18 +181,15 @@ export default function Component() {
     const firstDayOfSchool = new Date(2025, 7, 25) // August 25, 2025
     const lastDayOfSchool = new Date(2026, 5, 10) // June 10, 2026
 
-    // Check if date is within school year
     if (date < firstDayOfSchool || date > lastDayOfSchool) {
       return null
     }
 
-    // Check if it's a weekend
     const dayOfWeek = date.getDay()
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       return null
     }
 
-    // Check if it's a holiday or break
     const dateEvents = events.filter(
       (event) =>
         event.date === date.getDate() &&
@@ -571,16 +202,13 @@ export default function Component() {
       return null
     }
 
-    // Count school days since first day of school
     let schoolDays = 0
     const currentDay = new Date(firstDayOfSchool)
 
     while (currentDay <= date) {
       const currentDayOfWeek = currentDay.getDay()
 
-      // Skip weekends
       if (currentDayOfWeek !== 0 && currentDayOfWeek !== 6) {
-        // Check if it's not a holiday/break/workday
         const currentDayEvents = events.filter(
           (event) =>
             event.date === currentDay.getDate() &&
@@ -601,12 +229,35 @@ export default function Component() {
   }
 
   const handleLogin = () => {
-    if (loginCredentials.username === "admin" && loginCredentials.password === "password123") {
-      setIsLoggedIn(true)
+    if (loginCredentials.username === "akadministrator2025" && loginCredentials.password === "akadminpassword2025") {
       setShowLogin(false)
+      setShowPhoneVerification(true)
       setLoginCredentials({ username: "", password: "" })
     } else {
       alert("Invalid credentials")
+    }
+  }
+
+  const handlePhoneVerification = () => {
+    if (phoneNumber.length >= 10) {
+      // Generate a random 6-digit code
+      const code = Math.floor(100000 + Math.random() * 900000).toString()
+      setSentCode(code)
+      alert(`Verification code sent to ${phoneNumber}: ${code}`)
+    } else {
+      alert("Please enter a valid phone number")
+    }
+  }
+
+  const handleVerificationSubmit = () => {
+    if (verificationCode === sentCode) {
+      setIsLoggedIn(true)
+      setShowPhoneVerification(false)
+      setPhoneNumber("")
+      setVerificationCode("")
+      setSentCode("")
+    } else {
+      alert("Invalid verification code")
     }
   }
 
@@ -643,7 +294,6 @@ export default function Component() {
     const firstDay = getFirstDayOfMonth(currentDate)
     const calendarDays = []
 
-    // Previous month days
     const prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
     const daysInPrevMonth = getDaysInMonth(prevMonth)
 
@@ -655,7 +305,6 @@ export default function Component() {
       })
     }
 
-    // Current month days
     for (let i = 1; i <= daysInMonth; i++) {
       calendarDays.push({
         date: i,
@@ -664,7 +313,6 @@ export default function Component() {
       })
     }
 
-    // Next month days to fill the grid
     const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7
     const remainingCells = totalCells - (firstDay + daysInMonth)
 
@@ -687,7 +335,7 @@ export default function Component() {
 
     return allEvents.filter((event) => {
       if (event.isAdministrative) {
-        return true // Always show administrative events
+        return true
       }
       return selectedCategories.includes(event.type)
     })
@@ -714,15 +362,24 @@ export default function Component() {
             </div>
             <div className="flex items-center space-x-4">
               <nav className="hidden md:flex space-x-6">
-                <a href="#" className="hover:text-purple-200 transition-colors">
+                <button
+                  onClick={() => onNavigate("calendar")}
+                  className="hover:text-purple-200 transition-colors font-medium"
+                >
                   Home
-                </a>
-                <a href="#" className="hover:text-purple-200 transition-colors">
+                </button>
+                <button
+                  onClick={() => onNavigate("calendar")}
+                  className="hover:text-purple-200 transition-colors font-medium"
+                >
                   Calendar
-                </a>
-                <a href="#" className="hover:text-purple-200 transition-colors">
+                </button>
+                <button
+                  onClick={() => onNavigate("announcements")}
+                  className="hover:text-purple-200 transition-colors font-medium"
+                >
                   Announcements
-                </a>
+                </button>
                 <a href="#" className="hover:text-purple-200 transition-colors">
                   About
                 </a>
@@ -739,8 +396,12 @@ export default function Component() {
                   </Button>
                 </div>
               ) : (
-                <Button variant="outline" size="sm" onClick={() => setShowLogin(true)}>
-                  <LogIn className="h-4 w-4 mr-1" />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowLogin(true)}
+                  className="bg-white text-purple-900 hover:bg-gray-100"
+                >
                   Admin Login
                 </Button>
               )}
@@ -782,7 +443,60 @@ export default function Component() {
                   Cancel
                 </Button>
               </div>
-              <p className="text-xs text-gray-500">Demo: admin / password123</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Phone Verification Modal */}
+      {showPhoneVerification && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-96">
+            <CardHeader>
+              <CardTitle>Two-Factor Authentication</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="phone">Phone Number</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  placeholder="(555) 123-4567"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+                <Button onClick={handlePhoneVerification} className="mt-2 w-full" disabled={!phoneNumber}>
+                  Send Verification Code
+                </Button>
+              </div>
+              {sentCode && (
+                <div>
+                  <Label htmlFor="verification">Verification Code</Label>
+                  <Input
+                    id="verification"
+                    placeholder="Enter 6-digit code"
+                    value={verificationCode}
+                    onChange={(e) => setVerificationCode(e.target.value)}
+                  />
+                  <div className="flex space-x-2 mt-2">
+                    <Button onClick={handleVerificationSubmit} className="flex-1">
+                      Verify
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setShowPhoneVerification(false)
+                        setPhoneNumber("")
+                        setVerificationCode("")
+                        setSentCode("")
+                      }}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
         </div>
