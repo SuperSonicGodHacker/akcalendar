@@ -9,13 +9,22 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 const eventCategories = [
-  { id: "all", label: "All Events", active: true },
-  { id: "workdays", label: "Teacher Workdays", active: false },
-  { id: "holidays", label: "Holidays", active: false },
-  { id: "breaks", label: "School Breaks", active: false },
-  { id: "academic", label: "Academic", active: false },
-  { id: "early-release", label: "Early Release", active: false },
-  { id: "milestones", label: "Milestones", active: false },
+  { id: "sports", label: "Sports", checked: true, color: "bg-red-100 text-red-800 border-red-200" },
+  { id: "arts", label: "Arts & Theater", checked: true, color: "bg-purple-100 text-purple-800 border-purple-200" },
+  { id: "music", label: "Music & Band", checked: true, color: "bg-green-100 text-green-800 border-green-200" },
+  {
+    id: "academic-events",
+    label: "Academic Events",
+    checked: true,
+    color: "bg-blue-100 text-blue-800 border-blue-200",
+  },
+  { id: "clubs", label: "Clubs", checked: true, color: "bg-yellow-100 text-yellow-800 border-yellow-200" },
+  {
+    id: "special-events",
+    label: "Special Events",
+    checked: true,
+    color: "bg-orange-100 text-orange-800 border-orange-200",
+  },
 ]
 
 const eventTypeColors = {
@@ -28,50 +37,54 @@ const eventTypeColors = {
 }
 
 const events = [
-  // July 2025
+  // Administrative Events (no color coding)
   {
     date: 4,
     month: 6,
     year: 2025,
     title: "Independence Day Holiday",
-    type: "holidays",
+    type: "administrative",
+    isAdministrative: true,
   },
-
-  // August 2025
   {
     date: 18,
     month: 7,
     year: 2025,
     title: "Teacher Workday",
-    type: "workdays",
+    type: "administrative",
+    isAdministrative: true,
   },
   {
     date: 19,
     month: 7,
     year: 2025,
     title: "Teacher Workday",
-    type: "workdays",
+    type: "administrative",
+    isAdministrative: true,
   },
   {
     date: 20,
     month: 7,
     year: 2025,
     title: "Teacher Workday",
-    type: "workdays",
+    type: "administrative",
+    isAdministrative: true,
   },
   {
     date: 21,
     month: 7,
     year: 2025,
     title: "Teacher Workday",
-    type: "workdays",
+    type: "administrative",
+    isAdministrative: true,
   },
   {
     date: 22,
     month: 7,
     year: 2025,
     title: "Teacher Workday",
-    type: "workdays",
+    type: "administrative",
+    isAdministrative: true,
   },
   {
     date: 25,
@@ -79,6 +92,7 @@ const events = [
     year: 2025,
     title: "First Day of School",
     type: "milestones",
+    isAdministrative: true,
   },
 
   // September 2025
@@ -88,6 +102,7 @@ const events = [
     year: 2025,
     title: "Labor Day",
     type: "holidays",
+    isAdministrative: true,
   },
   {
     date: 9,
@@ -95,6 +110,7 @@ const events = [
     year: 2025,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
   {
     date: 23,
@@ -102,6 +118,7 @@ const events = [
     year: 2025,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
 
   // October 2025
@@ -111,6 +128,7 @@ const events = [
     year: 2025,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
   {
     date: 8,
@@ -118,6 +136,7 @@ const events = [
     year: 2025,
     title: "Early Release Day",
     type: "early-release",
+    isAdministrative: true,
   },
   {
     date: 9,
@@ -125,6 +144,7 @@ const events = [
     year: 2025,
     title: "Q1 Ends (46 days)",
     type: "academic",
+    isAdministrative: true,
   },
   {
     date: 31,
@@ -132,6 +152,7 @@ const events = [
     year: 2025,
     title: "Halloween",
     type: "holidays",
+    isAdministrative: true,
   },
 
   // November 2025
@@ -141,6 +162,7 @@ const events = [
     year: 2025,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
   {
     date: 11,
@@ -148,6 +170,7 @@ const events = [
     year: 2025,
     title: "Veterans Day",
     type: "holidays",
+    isAdministrative: true,
   },
   {
     date: 19,
@@ -155,6 +178,7 @@ const events = [
     year: 2025,
     title: "Early Release Day",
     type: "early-release",
+    isAdministrative: true,
   },
   {
     date: 26,
@@ -162,6 +186,7 @@ const events = [
     year: 2025,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
   {
     date: 27,
@@ -169,6 +194,7 @@ const events = [
     year: 2025,
     title: "Thanksgiving Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 28,
@@ -176,6 +202,7 @@ const events = [
     year: 2025,
     title: "Thanksgiving Break",
     type: "breaks",
+    isAdministrative: true,
   },
 
   // December 2025
@@ -185,6 +212,7 @@ const events = [
     year: 2025,
     title: "Winter Break Begins",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 23,
@@ -192,6 +220,7 @@ const events = [
     year: 2025,
     title: "Winter Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 24,
@@ -199,6 +228,7 @@ const events = [
     year: 2025,
     title: "Winter Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 25,
@@ -206,6 +236,7 @@ const events = [
     year: 2025,
     title: "Christmas Day",
     type: "holidays",
+    isAdministrative: true,
   },
   {
     date: 26,
@@ -213,6 +244,7 @@ const events = [
     year: 2025,
     title: "Winter Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 29,
@@ -220,6 +252,7 @@ const events = [
     year: 2025,
     title: "Winter Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 30,
@@ -227,6 +260,7 @@ const events = [
     year: 2025,
     title: "Winter Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 31,
@@ -234,6 +268,7 @@ const events = [
     year: 2025,
     title: "New Year's Eve",
     type: "breaks",
+    isAdministrative: true,
   },
 
   // January 2026
@@ -243,6 +278,7 @@ const events = [
     year: 2026,
     title: "New Year's Day",
     type: "holidays",
+    isAdministrative: true,
   },
   {
     date: 2,
@@ -250,6 +286,7 @@ const events = [
     year: 2026,
     title: "Winter Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 19,
@@ -257,6 +294,7 @@ const events = [
     year: 2026,
     title: "MLK Jr. Day",
     type: "holidays",
+    isAdministrative: true,
   },
   {
     date: 21,
@@ -264,6 +302,7 @@ const events = [
     year: 2026,
     title: "Q2 Ends (42 days)",
     type: "academic",
+    isAdministrative: true,
   },
   {
     date: 23,
@@ -271,6 +310,7 @@ const events = [
     year: 2026,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
 
   // February 2026
@@ -280,6 +320,7 @@ const events = [
     year: 2026,
     title: "Early Release Day",
     type: "early-release",
+    isAdministrative: true,
   },
   {
     date: 16,
@@ -287,6 +328,7 @@ const events = [
     year: 2026,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
 
   // March 2026
@@ -296,6 +338,7 @@ const events = [
     year: 2026,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
   {
     date: 20,
@@ -303,6 +346,7 @@ const events = [
     year: 2026,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
   {
     date: 27,
@@ -310,6 +354,7 @@ const events = [
     year: 2026,
     title: "Early Release Day",
     type: "early-release",
+    isAdministrative: true,
   },
 
   // April 2026
@@ -319,6 +364,7 @@ const events = [
     year: 2026,
     title: "Q3 Ends (47 days)",
     type: "academic",
+    isAdministrative: true,
   },
   {
     date: 3,
@@ -326,6 +372,7 @@ const events = [
     year: 2026,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
   {
     date: 6,
@@ -333,6 +380,7 @@ const events = [
     year: 2026,
     title: "Spring Break Begins",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 7,
@@ -340,6 +388,7 @@ const events = [
     year: 2026,
     title: "Spring Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 8,
@@ -347,6 +396,7 @@ const events = [
     year: 2026,
     title: "Spring Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 9,
@@ -354,6 +404,7 @@ const events = [
     year: 2026,
     title: "Spring Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 10,
@@ -361,6 +412,7 @@ const events = [
     year: 2026,
     title: "Spring Break",
     type: "breaks",
+    isAdministrative: true,
   },
   {
     date: 29,
@@ -368,6 +420,7 @@ const events = [
     year: 2026,
     title: "Early Release Day",
     type: "early-release",
+    isAdministrative: true,
   },
 
   // May 2026
@@ -377,6 +430,7 @@ const events = [
     year: 2026,
     title: "Memorial Day",
     type: "holidays",
+    isAdministrative: true,
   },
 
   // June 2026
@@ -386,6 +440,7 @@ const events = [
     year: 2026,
     title: "Last Day of School",
     type: "milestones",
+    isAdministrative: true,
   },
   {
     date: 11,
@@ -393,6 +448,7 @@ const events = [
     year: 2026,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
   },
   {
     date: 12,
@@ -400,6 +456,56 @@ const events = [
     year: 2026,
     title: "Teacher Workday",
     type: "workdays",
+    isAdministrative: true,
+  },
+  // School Activity Events (with colors)
+  {
+    date: 5,
+    month: 8,
+    year: 2025,
+    title: "Football vs. West High",
+    type: "sports",
+    isAdministrative: false,
+  },
+  {
+    date: 12,
+    month: 8,
+    year: 2025,
+    title: "Fall Play Auditions",
+    type: "arts",
+    isAdministrative: false,
+  },
+  {
+    date: 15,
+    month: 8,
+    year: 2025,
+    title: "Band Concert",
+    type: "music",
+    isAdministrative: false,
+  },
+  {
+    date: 20,
+    month: 8,
+    year: 2025,
+    title: "Science Fair",
+    type: "academic-events",
+    isAdministrative: false,
+  },
+  {
+    date: 25,
+    month: 8,
+    year: 2025,
+    title: "Chess Club Meeting",
+    type: "clubs",
+    isAdministrative: false,
+  },
+  {
+    date: 30,
+    month: 8,
+    year: 2025,
+    title: "Homecoming Dance",
+    type: "special-events",
+    isAdministrative: false,
   },
 ]
 
@@ -411,6 +517,14 @@ export default function Component() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
   const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" })
+  const [selectedCategories, setSelectedCategories] = useState([
+    "sports",
+    "arts",
+    "music",
+    "academic-events",
+    "clubs",
+    "special-events",
+  ])
 
   const monthNames = [
     "January",
@@ -565,16 +679,17 @@ export default function Component() {
   }
 
   const getEventsForDate = (date: number) => {
-    const filteredEvents = events.filter(
+    const allEvents = events.filter(
       (event) =>
         event.date === date && event.month === currentDate.getMonth() && event.year === currentDate.getFullYear(),
     )
 
-    if (activeCategory === "all") {
-      return filteredEvents
-    }
-
-    return filteredEvents.filter((event) => event.type === activeCategory)
+    return allEvents.filter((event) => {
+      if (event.isAdministrative) {
+        return true // Always show administrative events
+      }
+      return selectedCategories.includes(event.type)
+    })
   }
 
   return (
@@ -669,51 +784,48 @@ export default function Component() {
       {/* Category Navigation */}
       <div className="bg-white border-b">
         <div className="container mx-auto px-4">
-          <div className="flex space-x-8 overflow-x-auto py-4">
-            {eventCategories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setActiveCategory(category.id)}
-                className={`whitespace-nowrap pb-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeCategory === category.id
-                    ? "border-blue-500 text-blue-600"
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                }`}
-              >
-                {category.label}
-              </button>
-            ))}
+          <div className="py-4">
+            <h3 className="text-sm font-medium text-gray-700 mb-3">Show Event Types:</h3>
+            <div className="flex flex-wrap gap-4">
+              {eventCategories.map((category) => (
+                <label key={category.id} className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.includes(category.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setSelectedCategories((prev) => [...prev, category.id])
+                      } else {
+                        setSelectedCategories((prev) => prev.filter((id) => id !== category.id))
+                      }
+                    }}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <div className={`w-3 h-3 rounded border ${category.color}`}></div>
+                  <span className="text-sm font-medium text-gray-700">{category.label}</span>
+                </label>
+              ))}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Color Legend */}
+      {/* Activity Event Legend */}
       <div className="bg-white border-b">
         <div className="container mx-auto px-4 py-3">
           <div className="flex flex-wrap gap-4 text-xs">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-blue-200 border border-blue-300 rounded"></div>
-              <span>Teacher Workdays</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-red-200 border border-red-300 rounded"></div>
-              <span>Holidays</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-purple-200 border border-purple-300 rounded"></div>
-              <span>School Breaks</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-green-200 border border-green-300 rounded"></div>
-              <span>Academic</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-orange-200 border border-orange-300 rounded"></div>
-              <span>Early Release</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-yellow-200 border border-yellow-300 rounded"></div>
-              <span>Milestones</span>
+            <span className="font-medium text-gray-600">Activity Events:</span>
+            {eventCategories.map((category) => (
+              <div key={category.id} className="flex items-center space-x-2">
+                <div
+                  className={`w-3 h-3 rounded border ${category.color.split(" ")[0]}-200 border-${category.color.split(" ")[0]}-300`}
+                ></div>
+                <span>{category.label}</span>
+              </div>
+            ))}
+            <div className="flex items-center space-x-2 ml-4">
+              <div className="w-3 h-3 bg-gray-200 border border-gray-300 rounded"></div>
+              <span>Administrative Events</span>
             </div>
           </div>
         </div>
@@ -782,25 +894,32 @@ export default function Component() {
                   </div>
                   <div className="space-y-1">
                     {day.isCurrentMonth &&
-                      getEventsForDate(day.date).map((event, eventIndex) => (
-                        <div key={eventIndex} className="relative group">
-                          <Badge
-                            variant="secondary"
-                            className={`text-xs px-2 py-1 block w-full text-left ${eventTypeColors[event.type]} border`}
-                          >
-                            {event.title}
-                          </Badge>
-                          {isLoggedIn && (
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 h-6 w-6 p-0"
+                      getEventsForDate(day.date).map((event, eventIndex) => {
+                        const eventCategory = eventCategories.find((cat) => cat.id === event.type)
+                        const eventColor = event.isAdministrative
+                          ? "bg-gray-100 text-gray-800 border-gray-200"
+                          : eventCategory?.color || "bg-gray-100 text-gray-800 border-gray-200"
+
+                        return (
+                          <div key={eventIndex} className="relative group">
+                            <Badge
+                              variant="secondary"
+                              className={`text-xs px-2 py-1 block w-full text-left ${eventColor} border`}
                             >
-                              <Edit className="h-3 w-3" />
-                            </Button>
-                          )}
-                        </div>
-                      ))}
+                              {event.title}
+                            </Badge>
+                            {isLoggedIn && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 h-6 w-6 p-0"
+                              >
+                                <Edit className="h-3 w-3" />
+                              </Button>
+                            )}
+                          </div>
+                        )
+                      })}
                   </div>
                 </div>
               )
