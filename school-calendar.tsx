@@ -233,7 +233,7 @@ export default function Component() {
             <div className="flex items-center space-x-3">
               <BookOpen className="h-8 w-8" />
               <div>
-                <h1 className="text-2xl font-bold">Lincoln High School</h1>
+                <h1 className="text-2xl font-bold">Ardrey Kell High School</h1>
                 <p className="text-blue-200 text-sm">School Events Calendar</p>
               </div>
             </div>
