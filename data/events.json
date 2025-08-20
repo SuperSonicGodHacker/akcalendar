@@ -1,66 +1,453 @@
 [
   {
     "id": "admin-1",
-    "date": 4,
-    "month": 6,
-    "year": 2025,
-    "title": "Independence Day Holiday",
-    "type": "administrative",
-    "isAdministrative": true
-  },
-  {
-    "id": "admin-2",
     "date": 18,
     "month": 7,
     "year": 2025,
     "title": "Teacher Workday",
     "type": "administrative",
-    "isAdministrative": true
+    "isAdministrative": true,
+    "description": "Teacher preparation day before school starts"
   },
   {
-    "id": "admin-3",
+    "id": "admin-2",
     "date": 19,
     "month": 7,
     "year": 2025,
     "title": "Teacher Workday",
     "type": "administrative",
-    "isAdministrative": true
+    "isAdministrative": true,
+    "description": "Teacher preparation day before school starts"
   },
   {
-    "id": "admin-4",
+    "id": "admin-3",
     "date": 20,
     "month": 7,
     "year": 2025,
     "title": "Teacher Workday",
     "type": "administrative",
-    "isAdministrative": true
+    "isAdministrative": true,
+    "description": "Teacher preparation day before school starts"
   },
   {
-    "id": "admin-5",
+    "id": "admin-4",
     "date": 21,
     "month": 7,
     "year": 2025,
     "title": "Teacher Workday",
     "type": "administrative",
-    "isAdministrative": true
+    "isAdministrative": true,
+    "description": "Teacher preparation day before school starts"
   },
   {
-    "id": "admin-6",
+    "id": "admin-5",
     "date": 22,
     "month": 7,
     "year": 2025,
     "title": "Teacher Workday",
     "type": "administrative",
-    "isAdministrative": true
+    "isAdministrative": true,
+    "description": "Teacher preparation day before school starts"
   },
   {
-    "id": "admin-7",
+    "id": "admin-6",
     "date": 25,
     "month": 7,
     "year": 2025,
     "title": "First Day of School",
     "type": "milestones",
-    "isAdministrative": true
+    "isAdministrative": true,
+    "description": "Welcome back students! First day of the 2025-2026 school year"
+  },
+  {
+    "id": "admin-7",
+    "date": 1,
+    "month": 8,
+    "year": 2025,
+    "title": "Labor Day Holiday",
+    "type": "holidays",
+    "isAdministrative": true,
+    "description": "No school - Labor Day holiday"
+  },
+  {
+    "id": "admin-8",
+    "date": 9,
+    "month": 8,
+    "year": 2025,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday"
+  },
+  {
+    "id": "admin-9",
+    "date": 23,
+    "month": 8,
+    "year": 2025,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday"
+  },
+  {
+    "id": "admin-10",
+    "date": 2,
+    "month": 9,
+    "year": 2025,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday"
+  },
+  {
+    "id": "admin-11",
+    "date": 31,
+    "month": 9,
+    "year": 2025,
+    "title": "Q1 Ends (46 days)",
+    "type": "milestones",
+    "isAdministrative": true,
+    "description": "End of First Quarter - 46 instructional days completed"
+  },
+  {
+    "id": "admin-12",
+    "date": 4,
+    "month": 10,
+    "year": 2025,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday"
+  },
+  {
+    "id": "admin-13",
+    "date": 11,
+    "month": 10,
+    "year": 2025,
+    "title": "Veterans Day Holiday",
+    "type": "holidays",
+    "isAdministrative": true,
+    "description": "No school - Veterans Day holiday"
+  },
+  {
+    "id": "admin-14",
+    "date": 26,
+    "month": 10,
+    "year": 2025,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday"
+  },
+  {
+    "id": "admin-15",
+    "date": 27,
+    "month": 10,
+    "year": 2025,
+    "title": "Thanksgiving Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Thanksgiving break begins"
+  },
+  {
+    "id": "admin-16",
+    "date": 28,
+    "month": 10,
+    "year": 2025,
+    "title": "Thanksgiving Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Thanksgiving break continues"
+  },
+  {
+    "id": "admin-17",
+    "date": 22,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break Begins",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break begins (Dec 22 - Jan 2)"
+  },
+  {
+    "id": "admin-18",
+    "date": 23,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-19",
+    "date": 24,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-20",
+    "date": 25,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-21",
+    "date": 26,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-22",
+    "date": 27,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-23",
+    "date": 28,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-24",
+    "date": 29,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-25",
+    "date": 30,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-26",
+    "date": 31,
+    "month": 11,
+    "year": 2025,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-27",
+    "date": 1,
+    "month": 0,
+    "year": 2026,
+    "title": "Winter Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Winter break continues"
+  },
+  {
+    "id": "admin-28",
+    "date": 2,
+    "month": 0,
+    "year": 2026,
+    "title": "Winter Break Ends",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Last day of winter break"
+  },
+  {
+    "id": "admin-29",
+    "date": 19,
+    "month": 0,
+    "year": 2026,
+    "title": "MLK Jr. Day Holiday",
+    "type": "holidays",
+    "isAdministrative": true,
+    "description": "No school - Martin Luther King Jr. Day holiday"
+  },
+  {
+    "id": "admin-30",
+    "date": 21,
+    "month": 0,
+    "year": 2026,
+    "title": "Q2 Ends (42 days)",
+    "type": "milestones",
+    "isAdministrative": true,
+    "description": "End of Second Quarter - 42 instructional days completed"
+  },
+  {
+    "id": "admin-31",
+    "date": 23,
+    "month": 0,
+    "year": 2026,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday (Makeup Day #1)"
+  },
+  {
+    "id": "admin-32",
+    "date": 16,
+    "month": 1,
+    "year": 2026,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday (Makeup Day #2)"
+  },
+  {
+    "id": "admin-33",
+    "date": 3,
+    "month": 2,
+    "year": 2026,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday"
+  },
+  {
+    "id": "admin-34",
+    "date": 20,
+    "month": 2,
+    "year": 2026,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday (Makeup Day #3)"
+  },
+  {
+    "id": "admin-35",
+    "date": 2,
+    "month": 3,
+    "year": 2026,
+    "title": "Q3 Ends (47 days)",
+    "type": "milestones",
+    "isAdministrative": true,
+    "description": "End of Third Quarter - 47 instructional days completed"
+  },
+  {
+    "id": "admin-36",
+    "date": 3,
+    "month": 3,
+    "year": 2026,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "No school for students - Teacher workday (Makeup Day #4)"
+  },
+  {
+    "id": "admin-37",
+    "date": 6,
+    "month": 3,
+    "year": 2026,
+    "title": "Spring Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Spring break begins (April 6-10)"
+  },
+  {
+    "id": "admin-38",
+    "date": 7,
+    "month": 3,
+    "year": 2026,
+    "title": "Spring Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Spring break continues"
+  },
+  {
+    "id": "admin-39",
+    "date": 8,
+    "month": 3,
+    "year": 2026,
+    "title": "Spring Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Spring break continues"
+  },
+  {
+    "id": "admin-40",
+    "date": 9,
+    "month": 3,
+    "year": 2026,
+    "title": "Spring Break",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Spring break continues"
+  },
+  {
+    "id": "admin-41",
+    "date": 10,
+    "month": 3,
+    "year": 2026,
+    "title": "Spring Break Ends",
+    "type": "breaks",
+    "isAdministrative": true,
+    "description": "No school - Last day of spring break"
+  },
+  {
+    "id": "admin-42",
+    "date": 25,
+    "month": 4,
+    "year": 2026,
+    "title": "Memorial Day Holiday",
+    "type": "holidays",
+    "isAdministrative": true,
+    "description": "No school - Memorial Day holiday"
+  },
+  {
+    "id": "admin-43",
+    "date": 10,
+    "month": 5,
+    "year": 2026,
+    "title": "Last Day of School - Q4 Ends (42 days)",
+    "type": "milestones",
+    "isAdministrative": true,
+    "description": "Last day of school! End of Fourth Quarter - 42 instructional days completed"
+  },
+  {
+    "id": "admin-44",
+    "date": 11,
+    "month": 5,
+    "year": 2026,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "Teacher workday - End of year activities (Makeup Day #5)"
+  },
+  {
+    "id": "admin-45",
+    "date": 12,
+    "month": 5,
+    "year": 2026,
+    "title": "Teacher Workday",
+    "type": "administrative",
+    "isAdministrative": true,
+    "description": "Teacher workday - End of year activities"
   },
   {
     "id": "event-1",
