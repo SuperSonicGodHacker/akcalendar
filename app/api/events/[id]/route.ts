@@ -1,63 +1,51 @@
 import { type NextRequest, NextResponse } from "next/server"
-import { promises as fs } from "fs"
-import path from "path"
+import { neon } from "@neondatabase/serverless"
 
-const eventsFilePath = path.join(process.cwd(), "data", "events.json")
-
-// Ensure the data directory exists
-async function ensureDataDirectory() {
-  const dataDir = path.join(process.cwd(), "data")
-  try {
-    await fs.access(dataDir)
-  } catch {
-    await fs.mkdir(dataDir, { recursive: true })
-  }
-}
-
-// Read events from file
-async function readEvents() {
-  try {
-    await ensureDataDirectory()
-    const data = await fs.readFile(eventsFilePath, "utf8")
-    return JSON.parse(data)
-  } catch (error) {
-    console.error("Error reading events:", error)
-    return []
-  }
-}
-
-// Write events to file
-async function writeEvents(events: any[]) {
-  try {
-    await ensureDataDirectory()
-    await fs.writeFile(eventsFilePath, JSON.stringify(events, null, 2))
-    console.log(`Successfully wrote ${events.length} events to file`)
-  } catch (error) {
-    console.error("Error writing events to file:", error)
-    throw error
-  }
-}
+const sql = neon(process.env.DATABASE_URL!)
 
 // PUT - Update an event
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
+    const { id } = await params
+    const numericId = Number.parseInt(id, 10)
+
+    if (Number.isNaN(numericId)) {
+      return NextResponse.json({ error: "Invalid event ID" }, { status: 400 })
+    }
+
     const updatedEvent = await request.json()
-    console.log(`Updating event with ID: ${id}`, updatedEvent)
 
-    const events = await readEvents()
-    const eventIndex = events.findIndex((event: any) => event.id === id)
+    const rows = await sql`
+      UPDATE events
+      SET
+        date = ${updatedEvent.date},
+        month = ${updatedEvent.month},
+        year = ${updatedEvent.year},
+        title = ${updatedEvent.title},
+        type = ${updatedEvent.type},
+        is_administrative = ${updatedEvent.isAdministrative ?? false},
+        description = ${updatedEvent.description || ""},
+        updated_at = NOW()
+      WHERE id = ${numericId}
+      RETURNING *
+    `
 
-    if (eventIndex === -1) {
+    if (rows.length === 0) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 })
     }
 
-    // Update the event while preserving the ID
-    events[eventIndex] = { ...updatedEvent, id }
-    await writeEvents(events)
+    const updated = {
+      id: String(rows[0].id),
+      date: rows[0].date,
+      month: rows[0].month,
+      year: rows[0].year,
+      title: rows[0].title,
+      type: rows[0].type,
+      isAdministrative: rows[0].is_administrative,
+      description: rows[0].description || "",
+    }
 
-    console.log(`Successfully updated event with ID: ${id}`)
-    return NextResponse.json(events[eventIndex])
+    return NextResponse.json(updated)
   } catch (error) {
     console.error("Error updating event:", error)
     return NextResponse.json({ error: "Failed to update event" }, { status: 500 })
@@ -65,23 +53,35 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE - Delete an event
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params
-    console.log(`Deleting event with ID: ${id}`)
+    const { id } = await params
+    const numericId = Number.parseInt(id, 10)
 
-    const events = await readEvents()
-    const eventIndex = events.findIndex((event: any) => event.id === id)
+    if (Number.isNaN(numericId)) {
+      return NextResponse.json({ error: "Invalid event ID" }, { status: 400 })
+    }
 
-    if (eventIndex === -1) {
+    const rows = await sql`
+      DELETE FROM events WHERE id = ${numericId} RETURNING *
+    `
+
+    if (rows.length === 0) {
       return NextResponse.json({ error: "Event not found" }, { status: 404 })
     }
 
-    const deletedEvent = events.splice(eventIndex, 1)[0]
-    await writeEvents(events)
+    const deleted = {
+      id: String(rows[0].id),
+      date: rows[0].date,
+      month: rows[0].month,
+      year: rows[0].year,
+      title: rows[0].title,
+      type: rows[0].type,
+      isAdministrative: rows[0].is_administrative,
+      description: rows[0].description || "",
+    }
 
-    console.log(`Successfully deleted event with ID: ${id}`)
-    return NextResponse.json(deletedEvent)
+    return NextResponse.json(deleted)
   } catch (error) {
     console.error("Error deleting event:", error)
     return NextResponse.json({ error: "Failed to delete event" }, { status: 500 })

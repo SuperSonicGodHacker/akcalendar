@@ -14,9 +14,8 @@ export interface Event {
 // Fetch all events
 export async function fetchEvents(): Promise<Event[]> {
   try {
-    console.log("Fetching events from API...")
     const response = await fetch("/api/events", {
-      cache: "no-store", // Ensure fresh data
+      cache: "no-store",
       headers: {
         "Cache-Control": "no-cache",
       },
@@ -27,7 +26,6 @@ export async function fetchEvents(): Promise<Event[]> {
     }
 
     const events = await response.json()
-    console.log(`Successfully fetched ${events.length} events`)
     return events
   } catch (error) {
     console.error("Error fetching events:", error)
@@ -38,7 +36,6 @@ export async function fetchEvents(): Promise<Event[]> {
 // Create a new event
 export async function createEvent(event: Omit<Event, "id">): Promise<Event | null> {
   try {
-    console.log("Creating event:", event)
     const response = await fetch("/api/events", {
       method: "POST",
       headers: {
@@ -53,7 +50,6 @@ export async function createEvent(event: Omit<Event, "id">): Promise<Event | nul
     }
 
     const createdEvent = await response.json()
-    console.log("Successfully created event:", createdEvent)
     return createdEvent
   } catch (error) {
     console.error("Error creating event:", error)
@@ -64,7 +60,6 @@ export async function createEvent(event: Omit<Event, "id">): Promise<Event | nul
 // Update an event
 export async function updateEvent(id: string, event: Partial<Event>): Promise<Event | null> {
   try {
-    console.log(`Updating event ${id}:`, event)
     const response = await fetch(`/api/events/${id}`, {
       method: "PUT",
       headers: {
@@ -79,7 +74,6 @@ export async function updateEvent(id: string, event: Partial<Event>): Promise<Ev
     }
 
     const updatedEvent = await response.json()
-    console.log("Successfully updated event:", updatedEvent)
     return updatedEvent
   } catch (error) {
     console.error("Error updating event:", error)
@@ -90,7 +84,6 @@ export async function updateEvent(id: string, event: Partial<Event>): Promise<Ev
 // Delete an event
 export async function deleteEvent(id: string): Promise<boolean> {
   try {
-    console.log(`Deleting event ${id}`)
     const response = await fetch(`/api/events/${id}`, {
       method: "DELETE",
     })
@@ -100,7 +93,6 @@ export async function deleteEvent(id: string): Promise<boolean> {
       throw new Error(`Failed to delete event: ${errorData.error || response.status}`)
     }
 
-    console.log(`Successfully deleted event ${id}`)
     return true
   } catch (error) {
     console.error("Error deleting event:", error)
