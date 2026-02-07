@@ -262,7 +262,7 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
                   Announcements
                 </button>
                 <button onClick={() => onNavigate("contact")} className="hover:text-purple-200 transition-colors">
-                  Contact
+                  Staff Contacts
                 </button>
               </nav>
               {isLoggedIn ? (

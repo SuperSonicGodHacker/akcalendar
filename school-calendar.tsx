@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { fetchEvents, createEvent, updateEvent, type Event } from "@/lib/api"
 import { isValidStaffEmail, getStaffMemberByEmail } from "@/lib/staff-directory"
+import { getABDayForDate } from "@/lib/ab-day-schedule"
 
 const eventCategories = [
   { id: "sports", label: "Sports", checked: true, color: "bg-red-100 text-red-800 border-red-200" },
@@ -108,56 +109,9 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
     }
   }
 
-  // A/B Day Logic
+  // A/B Day Logic - uses the official 2025-2026 schedule lookup
   const getABDay = (date: Date) => {
-    const firstDayOfSchool = new Date(2025, 7, 25) // August 25, 2025
-    const lastDayOfSchool = new Date(2026, 5, 10) // June 10, 2026
-
-    if (date < firstDayOfSchool || date > lastDayOfSchool) {
-      return null
-    }
-
-    const dayOfWeek = date.getDay()
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-      return null
-    }
-
-    const dateEvents = calendarEvents.filter(
-      (event) =>
-        event.date === date.getDate() &&
-        event.month === date.getMonth() &&
-        event.year === date.getFullYear() &&
-        (event.type === "holidays" || event.type === "breaks" || event.type === "workdays"),
-    )
-
-    if (dateEvents.length > 0) {
-      return null
-    }
-
-    let schoolDays = 0
-    const currentDay = new Date(firstDayOfSchool)
-
-    while (currentDay <= date) {
-      const currentDayOfWeek = currentDay.getDay()
-
-      if (currentDayOfWeek !== 0 && currentDayOfWeek !== 6) {
-        const currentDayEvents = calendarEvents.filter(
-          (event) =>
-            event.date === currentDay.getDate() &&
-            event.month === currentDay.getMonth() &&
-            event.year === currentDay.getFullYear() &&
-            (event.type === "holidays" || event.type === "breaks" || event.type === "workdays"),
-        )
-
-        if (currentDayEvents.length === 0) {
-          schoolDays++
-        }
-      }
-
-      currentDay.setDate(currentDay.getDate() + 1)
-    }
-
-    return schoolDays % 2 === 1 ? "A" : "B"
+    return getABDayForDate(date.getFullYear(), date.getMonth(), date.getDate())
   }
 
   const handleLogin = () => {
@@ -409,7 +363,7 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
                   Announcements
                 </button>
                 <button onClick={() => onNavigate("contact")} className="hover:text-purple-200 transition-colors">
-                  Contact
+                  Staff Contacts
                 </button>
               </nav>
               {isLoggedIn ? (

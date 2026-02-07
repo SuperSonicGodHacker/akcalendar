@@ -89,7 +89,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
               />
               <div>
                 <h1 className="text-2xl font-bold">Ardrey Kell High School</h1>
-                <p className="text-purple-200 text-sm">Staff Directory</p>
+                <p className="text-purple-200 text-sm">Staff Contacts</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -116,7 +116,7 @@ export default function ContactPage({ onNavigate }: ContactPageProps) {
                   onClick={() => onNavigate("contact")}
                   className="hover:text-purple-200 transition-colors font-medium text-purple-200"
                 >
-                  Contact
+                  Staff Contacts
                 </button>
               </nav>
             </div>
