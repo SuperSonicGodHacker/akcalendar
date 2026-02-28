@@ -87,8 +87,7 @@ export default function AnnouncementsPage({
   const categories = [
     { id: "all", label: "All Announcements", icon: Users },
     { id: "sports", label: "Sports", icon: Users },
-    { id: "theatre", label: "Theatre", icon: Users },
-    { id: "musical-arts", label: "Musical Arts", icon: Users },
+    { id: "fine-arts", label: "Fine Arts", icon: Users },
     { id: "academic-events", label: "Academic Events", icon: Users },
     { id: "clubs", label: "Clubs", icon: Users },
     { id: "special-events", label: "Special Events", icon: Users },
@@ -181,12 +180,11 @@ export default function AnnouncementsPage({
     selectedCategory === "all" ? announcements : announcements.filter((ann) => ann.category === selectedCategory)
 
   const getCategoryColor = (category: string) => {
-    const colors: { [key: string]: string } = {
-      sports: "bg-red-100 text-red-800",
-      theatre: "bg-purple-100 text-purple-800",
-      "musical-arts": "bg-green-100 text-green-800",
-      "academic-events": "bg-blue-100 text-blue-800",
-      clubs: "bg-yellow-100 text-yellow-800",
+  const colors: { [key: string]: string } = {
+    sports: "bg-red-100 text-red-800",
+    "fine-arts": "bg-purple-100 text-purple-800",
+    "academic-events": "bg-blue-100 text-blue-800",
+    clubs: "bg-yellow-100 text-yellow-800",
       "special-events": "bg-orange-100 text-orange-800",
       internships: "bg-indigo-100 text-indigo-800",
       jobs: "bg-teal-100 text-teal-800",

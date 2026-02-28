@@ -17,8 +17,7 @@ import { getDailyQuote } from "@/lib/daily-quotes"
 
 const eventCategories = [
   { id: "sports", label: "Sports", checked: true, color: "bg-red-100 text-red-800 border-red-200" },
-  { id: "arts", label: "Theatre", checked: true, color: "bg-purple-100 text-purple-800 border-purple-200" },
-  { id: "music", label: "Musical Arts", checked: true, color: "bg-green-100 text-green-800 border-green-200" },
+  { id: "fine-arts", label: "Fine Arts", checked: true, color: "bg-purple-100 text-purple-800 border-purple-200" },
   {
     id: "academic-events",
     label: "Academic Events",
@@ -30,7 +29,7 @@ const eventCategories = [
     id: "special-events",
     label: "Special Events",
     checked: true,
-    color: "bg-orange-100 text-orange-800 border-orange-200",
+    color: "bg-green-100 text-green-800 border-green-200",
   },
 ]
 
@@ -64,8 +63,7 @@ export default function SchoolCalendar({
   const [sentCode, setSentCode] = useState("")
   const [selectedCategories, setSelectedCategories] = useState([
     "sports",
-    "arts",
-    "music",
+    "fine-arts",
     "academic-events",
     "clubs",
     "special-events",
