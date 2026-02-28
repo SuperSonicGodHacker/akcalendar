@@ -1,7 +1,7 @@
 "use client"
 
-import { useState } from "react"
-import { ArrowLeft, Plus, Edit, Trash2, Calendar, Briefcase, Heart, Users } from "lucide-react"
+import { useState, useEffect } from "react"
+import { ArrowLeft, Plus, Edit, Trash2, Calendar, Briefcase, Heart, Users, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -13,12 +13,12 @@ import Image from "next/image"
 import { isValidStaffEmail, getStaffMemberByEmail } from "@/lib/staff-directory"
 
 interface Announcement {
-  id: string
+  id: number
   title: string
   content: string
   category: string
-  date: string
-  author: string
+  created_at: string
+  posted_by: string
 }
 
 interface AnnouncementsPageProps {
@@ -38,57 +38,27 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
   const [currentStaffMember, setCurrentStaffMember] = useState<any>(null)
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [viewAsStudent, setViewAsStudent] = useState(false)
+  const [announcements, setAnnouncements] = useState<Announcement[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
-  const [announcements, setAnnouncements] = useState<Announcement[]>([
-    {
-      id: "1",
-      title: "Homecoming Game vs. Providence Panthers",
-      content: "Join us for our homecoming football game this Friday at 7:00 PM. Wear your purple and gold!",
-      category: "sports",
-      date: "2025-06-10",
-      author: "Coach Johnson",
-    },
-    {
-      id: "2",
-      title: "Fall Drama Production Auditions",
-      content: "Auditions for 'Romeo and Juliet' will be held next week. Sign up in the drama room.",
-      category: "theatre",
-      date: "2025-06-09",
-      author: "Ms. Williams",
-    },
-    {
-      id: "3",
-      title: "Band Concert Fundraiser",
-      content: "Support our marching band by attending our concert fundraiser on Saturday evening.",
-      category: "musical-arts",
-      date: "2025-06-08",
-      author: "Mr. Davis",
-    },
-    {
-      id: "4",
-      title: "Summer Internship at Local Tech Company",
-      content: "Exciting opportunity for rising seniors interested in computer science and technology.",
-      category: "internships",
-      date: "2025-06-07",
-      author: "Career Center",
-    },
-    {
-      id: "5",
-      title: "Part-time Positions at Community Center",
-      content: "The Charlotte Community Center is hiring part-time staff for summer programs.",
-      category: "jobs",
-      date: "2025-06-06",
-      author: "Career Center",
-    },
-    {
-      id: "6",
-      title: "Volunteer at Animal Shelter",
-      content: "Help care for animals at the local shelter. Great for community service hours.",
-      category: "volunteer",
-      date: "2025-06-05",
-      author: "Service Learning",
-    },
-  ])
+  // Fetch announcements from database
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await fetch("/api/announcements")
+      if (response.ok) {
+        const data = await response.json()
+        setAnnouncements(data)
+      }
+    } catch (error) {
+      console.error("Error fetching announcements:", error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchAnnouncements()
+  }, [])
 
   const [newAnnouncement, setNewAnnouncement] = useState({
     title: "",
@@ -157,24 +127,43 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
     setIsLoggedIn(false)
   }
 
-  const handleAddAnnouncement = () => {
+  const handleAddAnnouncement = async () => {
     if (newAnnouncement.title && newAnnouncement.content && newAnnouncement.category) {
-      const announcement: Announcement = {
-        id: Date.now().toString(),
-        title: newAnnouncement.title,
-        content: newAnnouncement.content,
-        category: newAnnouncement.category,
-        date: new Date().toISOString().split("T")[0],
-        author: currentStaffMember?.name || "Admin",
+      try {
+        const response = await fetch("/api/announcements", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: newAnnouncement.title,
+            content: newAnnouncement.content,
+            category: newAnnouncement.category,
+            posted_by: currentStaffMember?.name || "Admin",
+          }),
+        })
+        if (response.ok) {
+          await fetchAnnouncements()
+          setNewAnnouncement({ title: "", content: "", category: "" })
+          setShowAddAnnouncement(false)
+        }
+      } catch (error) {
+        console.error("Error adding announcement:", error)
+        alert("Failed to add announcement")
       }
-      setAnnouncements([announcement, ...announcements])
-      setNewAnnouncement({ title: "", content: "", category: "" })
-      setShowAddAnnouncement(false)
     }
   }
 
-  const handleDeleteAnnouncement = (id: string) => {
-    setAnnouncements(announcements.filter((ann) => ann.id !== id))
+  const handleDeleteAnnouncement = async (id: number) => {
+    try {
+      const response = await fetch(`/api/announcements/${id}`, {
+        method: "DELETE",
+      })
+      if (response.ok) {
+        await fetchAnnouncements()
+      }
+    } catch (error) {
+      console.error("Error deleting announcement:", error)
+      alert("Failed to delete announcement")
+    }
   }
 
   const filteredAnnouncements =
@@ -583,6 +572,16 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
 
           {/* Announcements List */}
           <div className="lg:col-span-3">
+            {isLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+                <span className="ml-2 text-gray-600">Loading announcements...</span>
+              </div>
+            ) : filteredAnnouncements.length === 0 ? (
+              <div className="text-center py-12 text-gray-500">
+                No announcements found in this category.
+              </div>
+            ) : (
             <div className="space-y-4">
               {filteredAnnouncements.map((announcement) => (
                 <Card key={announcement.id}>
@@ -593,7 +592,7 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
                           <Badge className={getCategoryColor(announcement.category)}>
                             {categories.find((cat) => cat.id === announcement.category)?.label}
                           </Badge>
-                          <span className="text-sm text-gray-500">{announcement.date}</span>
+                          <span className="text-sm text-gray-500">{new Date(announcement.created_at).toLocaleDateString()}</span>
                         </div>
                         <CardTitle className="text-xl">{announcement.title}</CardTitle>
                       </div>
@@ -611,11 +610,12 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
                   </CardHeader>
                   <CardContent>
                     <p className="text-gray-700 mb-2">{announcement.content}</p>
-                    <p className="text-sm text-gray-500">Posted by: {announcement.author}</p>
+                    <p className="text-sm text-gray-500">Posted by: {announcement.posted_by}</p>
                   </CardContent>
                 </Card>
               ))}
             </div>
+            )}
           </div>
         </div>
       </div>
