@@ -247,12 +247,6 @@ export default function AnnouncementsPage({
                   onClick={() => onNavigate("calendar")}
                   className="hover:text-purple-200 transition-colors font-medium"
                 >
-                  Home
-                </button>
-                <button
-                  onClick={() => onNavigate("calendar")}
-                  className="hover:text-purple-200 transition-colors font-medium"
-                >
                   Calendar
                 </button>
                 <button

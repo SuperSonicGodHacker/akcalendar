@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { fetchEvents, createEvent, updateEvent, type Event } from "@/lib/api"
 import { isValidStaffEmail, getStaffMemberByEmail } from "@/lib/staff-directory"
 import { getABDayForDate } from "@/lib/ab-day-schedule"
+import { getDailyQuote } from "@/lib/daily-quotes"
 
 const eventCategories = [
   { id: "sports", label: "Sports", checked: true, color: "bg-red-100 text-red-800 border-red-200" },
@@ -359,12 +360,6 @@ export default function SchoolCalendar({
                   onClick={() => onNavigate("calendar")}
                   className="hover:text-purple-200 transition-colors font-medium"
                 >
-                  Home
-                </button>
-                <button
-                  onClick={() => onNavigate("calendar")}
-                  className="hover:text-purple-200 transition-colors font-medium"
-                >
                   Calendar
                 </button>
                 <button
@@ -517,6 +512,17 @@ export default function SchoolCalendar({
           </Card>
         </div>
       )}
+
+      {/* Daily Quote */}
+      <div className="bg-gradient-to-r from-purple-50 to-purple-100 border-b">
+        <div className="container mx-auto px-4 py-4">
+          <div className="text-center">
+            <p className="text-sm font-medium text-purple-600 mb-1">Daily Quote</p>
+            <p className="text-lg italic text-gray-700">"{getDailyQuote().quote}"</p>
+            <p className="text-sm text-gray-500 mt-1">— {getDailyQuote().author}</p>
+          </div>
+        </div>
+      </div>
 
       {/* Category Navigation */}
       <div className="bg-white border-b">
