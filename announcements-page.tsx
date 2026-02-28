@@ -23,10 +23,23 @@ interface Announcement {
 
 interface AnnouncementsPageProps {
   onNavigate: (page: string) => void
+  isLoggedIn: boolean
+  setIsLoggedIn: (value: boolean) => void
+  currentStaffMember: any
+  setCurrentStaffMember: (value: any) => void
+  viewAsStudent: boolean
+  setViewAsStudent: (value: boolean) => void
 }
 
-export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+export default function AnnouncementsPage({ 
+  onNavigate,
+  isLoggedIn,
+  setIsLoggedIn,
+  currentStaffMember,
+  setCurrentStaffMember,
+  viewAsStudent,
+  setViewAsStudent
+}: AnnouncementsPageProps) {
   const [showLogin, setShowLogin] = useState(false)
   const [showEmailVerification, setShowEmailVerification] = useState(false)
   const [showAddAnnouncement, setShowAddAnnouncement] = useState(false)
@@ -35,9 +48,7 @@ export default function AnnouncementsPage({ onNavigate }: AnnouncementsPageProps
   const [staffEmail, setStaffEmail] = useState("")
   const [verificationCode, setVerificationCode] = useState("")
   const [sentCode, setSentCode] = useState("")
-  const [currentStaffMember, setCurrentStaffMember] = useState<any>(null)
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [viewAsStudent, setViewAsStudent] = useState(false)
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
   const [isLoading, setIsLoading] = useState(true)
 

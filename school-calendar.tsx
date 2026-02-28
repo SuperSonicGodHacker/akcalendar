@@ -37,18 +37,30 @@ const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
 interface SchoolCalendarProps {
   onNavigate: (page: string) => void
+  isLoggedIn: boolean
+  setIsLoggedIn: (value: boolean) => void
+  currentStaffMember: any
+  setCurrentStaffMember: (value: any) => void
+  viewAsStudent: boolean
+  setViewAsStudent: (value: boolean) => void
 }
 
-export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
+export default function SchoolCalendar({ 
+  onNavigate, 
+  isLoggedIn, 
+  setIsLoggedIn, 
+  currentStaffMember, 
+  setCurrentStaffMember,
+  viewAsStudent,
+  setViewAsStudent 
+}: SchoolCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date(2025, 5, 1)) // June 2025
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [showLogin, setShowLogin] = useState(false)
   const [showEmailVerification, setShowEmailVerification] = useState(false)
   const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" })
   const [staffEmail, setStaffEmail] = useState("")
   const [verificationCode, setVerificationCode] = useState("")
   const [sentCode, setSentCode] = useState("")
-  const [currentStaffMember, setCurrentStaffMember] = useState<any>(null)
   const [selectedCategories, setSelectedCategories] = useState([
     "sports",
     "arts",
@@ -66,7 +78,6 @@ export default function SchoolCalendar({ onNavigate }: SchoolCalendarProps) {
   })
   const [showEditEvent, setShowEditEvent] = useState(false)
   const [editingEvent, setEditingEvent] = useState<any>(null)
-  const [viewAsStudent, setViewAsStudent] = useState(false)
   const [showViewEvent, setShowViewEvent] = useState(false)
   const [viewingEvent, setViewingEvent] = useState<any>(null)
   const [calendarEvents, setCalendarEvents] = useState<Event[]>([])
