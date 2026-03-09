@@ -1,11 +1,15 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 
-const sql = neon(process.env.DATABASE_URL!)
-
 // GET - Fetch all events
 export async function GET() {
   try {
+    if (!process.env.DATABASE_URL) {
+      console.error("[v0] DATABASE_URL environment variable is not set")
+      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
+    }
+    
+    const sql = neon(process.env.DATABASE_URL)
     const rows = await sql`SELECT * FROM events ORDER BY year, month, date`
     const events = rows.map((row) => ({
       id: String(row.id),
@@ -27,6 +31,11 @@ export async function GET() {
 // POST - Create a new event
 export async function POST(request: NextRequest) {
   try {
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
+    }
+    
+    const sql = neon(process.env.DATABASE_URL)
     const newEvent = await request.json()
 
     if (

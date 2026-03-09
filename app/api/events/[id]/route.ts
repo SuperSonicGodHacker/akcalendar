@@ -1,11 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 
-const sql = neon(process.env.DATABASE_URL!)
-
 // PUT - Update an event
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
+    }
+    
+    const sql = neon(process.env.DATABASE_URL)
     const { id } = await params
     const numericId = Number.parseInt(id, 10)
 
@@ -55,6 +58,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 // DELETE - Delete an event
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
+    }
+    
+    const sql = neon(process.env.DATABASE_URL)
     const { id } = await params
     const numericId = Number.parseInt(id, 10)
 

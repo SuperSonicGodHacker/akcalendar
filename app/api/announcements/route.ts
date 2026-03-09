@@ -1,10 +1,14 @@
 import { neon } from "@neondatabase/serverless"
 import { NextResponse } from "next/server"
 
-const sql = neon(process.env.DATABASE_URL!)
-
 export async function GET() {
   try {
+    if (!process.env.DATABASE_URL) {
+      console.error("[v0] DATABASE_URL environment variable is not set")
+      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
+    }
+    
+    const sql = neon(process.env.DATABASE_URL)
     const announcements = await sql`
       SELECT * FROM announcements ORDER BY created_at DESC
     `
@@ -17,6 +21,11 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    if (!process.env.DATABASE_URL) {
+      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
+    }
+    
+    const sql = neon(process.env.DATABASE_URL)
     const body = await request.json()
     const { title, content, category, posted_by } = body
 
