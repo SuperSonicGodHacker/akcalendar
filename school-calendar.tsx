@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight, LogOut, Plus, Edit } from "lucide-react"
+import { ChevronLeft, ChevronRight, LogOut, Plus, Edit, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import Image from "next/image"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { fetchEvents, createEvent, updateEvent, type Event } from "@/lib/api"
+import { fetchEvents, createEvent, updateEvent, deleteEvent, type Event } from "@/lib/api"
 import { isValidStaffEmail, getStaffMemberByEmail } from "@/lib/staff-directory"
 import { getABDayForDate } from "@/lib/ab-day-schedule"
 import { getDailyQuote } from "@/lib/daily-quotes"
@@ -295,15 +295,12 @@ export default function SchoolCalendar({
     setShowEditEvent(true)
   }
 
-  const handleUpdateEvent = async () => {
+const handleUpdateEvent = async () => {
     if (editingEvent && editingEvent.title && editingEvent.type) {
       setIsSubmitting(true)
       try {
-        console.log("Updating event:", editingEvent)
         const updatedEvent = await updateEvent(editingEvent.id, editingEvent)
         if (updatedEvent) {
-          console.log("Event updated successfully:", updatedEvent)
-          // Reload events to get the latest data
           await loadEvents()
           setShowEditEvent(false)
           setEditingEvent(null)
@@ -319,6 +316,28 @@ export default function SchoolCalendar({
       }
     } else {
       alert("Please fill in all required fields")
+    }
+  }
+
+  const handleDeleteEvent = async () => {
+    if (editingEvent && confirm("Are you sure you want to delete this event? This action cannot be undone.")) {
+      setIsSubmitting(true)
+      try {
+        const success = await deleteEvent(editingEvent.id)
+        if (success) {
+          await loadEvents()
+          setShowEditEvent(false)
+          setEditingEvent(null)
+          alert("Event deleted successfully!")
+        } else {
+          alert("Failed to delete event. Please try again.")
+        }
+      } catch (error) {
+        console.error("Error deleting event:", error)
+        alert("Failed to delete event. Please try again.")
+      } finally {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -822,20 +841,31 @@ export default function SchoolCalendar({
                   disabled={isSubmitting}
                 />
               </div>
-              <div className="flex space-x-2">
-                <Button onClick={handleUpdateEvent} className="flex-1" disabled={isSubmitting}>
-                  {isSubmitting ? "Updating..." : "Update Event"}
-                </Button>
+              <div className="flex flex-col space-y-2">
+                <div className="flex space-x-2">
+                  <Button onClick={handleUpdateEvent} className="flex-1" disabled={isSubmitting}>
+                    {isSubmitting ? "Saving..." : "Update Event"}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setShowEditEvent(false)
+                      setEditingEvent(null)
+                    }}
+                    className="flex-1"
+                    disabled={isSubmitting}
+                  >
+                    Cancel
+                  </Button>
+                </div>
                 <Button
-                  variant="outline"
-                  onClick={() => {
-                    setShowEditEvent(false)
-                    setEditingEvent(null)
-                  }}
-                  className="flex-1"
+                  variant="destructive"
+                  onClick={handleDeleteEvent}
+                  className="w-full"
                   disabled={isSubmitting}
                 >
-                  Cancel
+                  <Trash2 className="w-4 h-4 mr-2" />
+                  {isSubmitting ? "Deleting..." : "Delete Event"}
                 </Button>
               </div>
             </CardContent>

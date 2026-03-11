@@ -49,6 +49,7 @@ export default function ContactPage({
   const getDepartmentColor = (department: string) => {
     const colors: { [key: string]: string } = {
       Administration: "bg-purple-100 text-purple-800 border-purple-200",
+      Counseling: "bg-sky-100 text-sky-800 border-sky-200",
       English: "bg-blue-100 text-blue-800 border-blue-200",
       Math: "bg-green-100 text-green-800 border-green-200",
       Science: "bg-red-100 text-red-800 border-red-200",
@@ -63,7 +64,6 @@ export default function ContactPage({
       "Health Occupations": "bg-emerald-100 text-emerald-800 border-emerald-200",
       "Theater Arts": "bg-violet-100 text-violet-800 border-violet-200",
       "Business Education": "bg-slate-100 text-slate-800 border-slate-200",
-      "Technology Education": "bg-gray-100 text-gray-800 border-gray-200",
       "Marketing Education": "bg-rose-100 text-rose-800 border-rose-200",
       Architecture: "bg-amber-100 text-amber-800 border-amber-200",
       Chemistry: "bg-red-200 text-red-900 border-red-300",

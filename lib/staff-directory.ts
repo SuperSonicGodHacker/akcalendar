@@ -8,6 +8,12 @@ export interface StaffMember {
 export const staffDirectory: StaffMember[] = [
   // Admin Staff
   {
+    name: "Dr. Susan Nichols",
+    email: "susans.nichols@cms.k12.nc.us",
+    role: "Principal",
+    department: "Administration",
+  },
+  {
     name: "Cathy Dugan",
     email: "catherinee.dugan@cms.k12.nc.us",
     role: "Assistant Principal",
@@ -36,6 +42,62 @@ export const staffDirectory: StaffMember[] = [
     email: "tomica.wright@cms.k12.nc.us",
     role: "Assistant Principal",
     department: "Administration",
+  },
+
+  // Counselors
+  {
+    name: "Kyle Wegner",
+    email: "kyled.wegner@cms.k12.nc.us",
+    role: "Counselor (A-Can)",
+    department: "Counseling",
+  },
+  {
+    name: "Lori DiPierno",
+    email: "lori.dipierno@cms.k12.nc.us",
+    role: "Counselor (Cap-For)",
+    department: "Counseling",
+  },
+  {
+    name: "Mary Sartwell",
+    email: "maryc.sartwell@cms.k12.nc.us",
+    role: "Counselor (Fos-I)",
+    department: "Counseling",
+  },
+  {
+    name: "Chasity Brooks",
+    email: "chasityc.brooks@cms.k12.nc.us",
+    role: "Counselor (J-Lop)",
+    department: "Counseling",
+  },
+  {
+    name: "Elizabeth Lee",
+    email: "elizabeth1.lee@cms.k12.nc.us",
+    role: "Counselor (Lor-O)",
+    department: "Counseling",
+  },
+  {
+    name: "Heather Schiffman",
+    email: "heathers.schiffman@cms.k12.nc.us",
+    role: "Counselor (P-San)",
+    department: "Counseling",
+  },
+  {
+    name: "Maria McCourt",
+    email: "mariae.mccourt@cms.k12.nc.us",
+    role: "Counselor (Sap-Ver)",
+    department: "Counseling",
+  },
+  {
+    name: "Kristilyn Ramos",
+    email: "kristilynw.ramos@cms.k12.nc.us",
+    role: "Counselor (Ves-Z)",
+    department: "Counseling",
+  },
+  {
+    name: "Jon Rochester",
+    email: "jon1.rochester@cms.k12.nc.us",
+    role: "Social Worker",
+    department: "Counseling",
   },
 
   // Teachers
@@ -361,7 +423,7 @@ export const staffDirectory: StaffMember[] = [
     name: "John Glenn",
     email: "john.glenn@cms.k12.nc.us",
     role: "Teacher",
-    department: "Technology Education",
+    department: "Business Education",
   },
   {
     name: "Carter Greene",

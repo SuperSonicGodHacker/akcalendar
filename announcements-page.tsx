@@ -91,7 +91,6 @@ export default function AnnouncementsPage({
     { id: "academic-events", label: "Academic Events", icon: Users },
     { id: "clubs", label: "Clubs", icon: Users },
     { id: "special-events", label: "Special Events", icon: Users },
-    { id: "internships", label: "Internships", icon: Briefcase },
     { id: "jobs", label: "Job Opportunities", icon: Briefcase },
     { id: "volunteer", label: "Volunteer Opportunities", icon: Heart },
   ]
