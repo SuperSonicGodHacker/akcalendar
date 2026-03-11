@@ -125,7 +125,7 @@ export default function SchoolCalendar({
   }
 
   const handleLogin = () => {
-    if (loginCredentials.username === "akadministrator2025" && loginCredentials.password === "akadminpassword2025") {
+    if (loginCredentials.username === "akadministrator2026" && loginCredentials.password === "akadminpassword2026") {
       setShowLogin(false)
       setShowEmailVerification(true)
       setLoginCredentials({ username: "", password: "" })
