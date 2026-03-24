@@ -1,26 +1,13 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 
-// Helper to get database URL from various possible env var names
-function getDatabaseUrl() {
-  return (
-    process.env.DATABASE_URL ||
-    process.env.POSTGRES_URL ||
-    process.env.NEON_DATABASE_URL ||
-    process.env.POSTGRES_PRISMA_URL
-  )
-}
+const DATABASE_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL || "postgresql://neondb_owner:npg_BfZb1v2WrdCD@ep-tiny-breeze-aipsug7f-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require"
+
+const sql = neon(DATABASE_URL)
 
 // PUT - Update an event
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const databaseUrl = getDatabaseUrl()
-    
-    if (!databaseUrl) {
-      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
-    }
-    
-    const sql = neon(databaseUrl)
     const { id } = await params
     const numericId = Number.parseInt(id, 10)
 
@@ -70,13 +57,6 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 // DELETE - Delete an event
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const databaseUrl = getDatabaseUrl()
-    
-    if (!databaseUrl) {
-      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
-    }
-    
-    const sql = neon(databaseUrl)
     const { id } = await params
     const numericId = Number.parseInt(id, 10)
 

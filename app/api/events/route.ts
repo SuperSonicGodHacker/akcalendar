@@ -1,28 +1,14 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { neon } from "@neondatabase/serverless"
 
-// Helper to get database URL from various possible env var names
-function getDatabaseUrl() {
-  return (
-    process.env.DATABASE_URL ||
-    process.env.POSTGRES_URL ||
-    process.env.NEON_DATABASE_URL ||
-    process.env.POSTGRES_PRISMA_URL
-  )
-}
+// Neon database connection string
+const DATABASE_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL || "postgresql://neondb_owner:npg_BfZb1v2WrdCD@ep-tiny-breeze-aipsug7f-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require"
+
+const sql = neon(DATABASE_URL)
 
 // GET - Fetch all events
 export async function GET() {
   try {
-    const databaseUrl = getDatabaseUrl()
-    
-    if (!databaseUrl) {
-      console.error("[v0] DATABASE_URL environment variable is not set")
-      console.error("[v0] Available env vars:", Object.keys(process.env).filter(k => k.includes('DATABASE') || k.includes('POSTGRES') || k.includes('NEON') || k.includes('PG')).join(', '))
-      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
-    }
-    
-    const sql = neon(databaseUrl)
     const rows = await sql`SELECT * FROM events ORDER BY year, month, date`
     const events = rows.map((row) => ({
       id: String(row.id),
@@ -44,13 +30,6 @@ export async function GET() {
 // POST - Create a new event
 export async function POST(request: NextRequest) {
   try {
-    const databaseUrl = getDatabaseUrl()
-    
-    if (!databaseUrl) {
-      return NextResponse.json({ error: "Database not configured" }, { status: 500 })
-    }
-    
-    const sql = neon(databaseUrl)
     const newEvent = await request.json()
 
     if (
