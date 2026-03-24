@@ -1,9 +1,7 @@
 import { neon } from "@neondatabase/serverless"
 import { NextResponse } from "next/server"
 
-const DATABASE_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL || "postgresql://neondb_owner:npg_BfZb1v2WrdCD@ep-tiny-breeze-aipsug7f-pooler.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require"
-
-const sql = neon(DATABASE_URL)
+const sql = neon(process.env.DATABASE_URL!)
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
