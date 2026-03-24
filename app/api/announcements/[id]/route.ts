@@ -1,13 +1,25 @@
 import { neon } from "@neondatabase/serverless"
 import { NextResponse } from "next/server"
 
+// Helper to get database URL from various possible env var names
+function getDatabaseUrl() {
+  return (
+    process.env.DATABASE_URL ||
+    process.env.POSTGRES_URL ||
+    process.env.NEON_DATABASE_URL ||
+    process.env.POSTGRES_PRISMA_URL
+  )
+}
+
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    if (!process.env.DATABASE_URL) {
+    const databaseUrl = getDatabaseUrl()
+    
+    if (!databaseUrl) {
       return NextResponse.json({ error: "Database not configured" }, { status: 500 })
     }
     
-    const sql = neon(process.env.DATABASE_URL)
+    const sql = neon(databaseUrl)
     const { id } = await params
     const body = await request.json()
     const { title, content, category, posted_by } = body
@@ -36,11 +48,13 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    if (!process.env.DATABASE_URL) {
+    const databaseUrl = getDatabaseUrl()
+    
+    if (!databaseUrl) {
       return NextResponse.json({ error: "Database not configured" }, { status: 500 })
     }
     
-    const sql = neon(process.env.DATABASE_URL)
+    const sql = neon(databaseUrl)
     const { id } = await params
 
     const result = await sql`
