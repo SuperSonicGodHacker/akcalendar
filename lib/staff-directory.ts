@@ -6,44 +6,6 @@ export interface StaffMember {
 }
 
 export const staffDirectory: StaffMember[] = [
-  // Admin Staff
-  {
-    name: "Dr. Susan Nichols",
-    email: "susans.nichols@cms.k12.nc.us",
-    role: "Principal",
-    department: "Administration",
-  },
-  {
-    name: "Cathy Dugan",
-    email: "catherinee.dugan@cms.k12.nc.us",
-    role: "Assistant Principal",
-    department: "Administration",
-  },
-  {
-    name: "AJ Hepworth",
-    email: "aj1.hepworth@cms.k12.nc.us",
-    role: "Assistant Principal",
-    department: "Administration",
-  },
-  {
-    name: "Deborah Hitt",
-    email: "deborah.hitt@cms.k12.nc.us",
-    role: "Assistant Principal",
-    department: "Administration",
-  },
-  {
-    name: "Kelly Holden",
-    email: "kelly.holden@cms.k12.nc.us",
-    role: "Assistant Principal",
-    department: "Administration",
-  },
-  {
-    name: "Tomica Wright",
-    email: "tomica.wright@cms.k12.nc.us",
-    role: "Assistant Principal",
-    department: "Administration",
-  },
-
   // Counselors
   {
     name: "Kyle Wegner",
@@ -100,30 +62,32 @@ export const staffDirectory: StaffMember[] = [
     department: "Counseling",
   },
 
-  // Teachers
+  // Staff (from Updated Staff Contacts PDF)
   {
-    name: "Thomas Anderson",
-    email: "thomase.anderson@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Spanish",
+    name: "Virginia Benken",
+    email: "virginiap.benken@cms.k12.nc.us",
+    role: "Administrative Assistant I",
+    department: "Administration",
   },
   {
-    name: "Natalie Austin",
-    email: "natalie1.austin@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
+    name: "Sherril Bradey",
+    email: "sherril1.bradey@cms.k12.nc.us",
+    role: "Technology Facilitator",
+    department: "Technology",
   },
+  {
+    name: "Maribeth Brown",
+    email: "maribethm.brown@cms.k12.nc.us",
+    role: "Media Coordinator",
+    department: "Media",
+  },
+
+  // Math Teachers
   {
     name: "Brook Bailey",
     email: "brook.bailey@cms.k12.nc.us",
     role: "Teacher",
     department: "Math",
-  },
-  {
-    name: "Katherine Baker",
-    email: "katherinej.baker@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
   },
   {
     name: "Vidhya Bangalore",
@@ -132,68 +96,22 @@ export const staffDirectory: StaffMember[] = [
     department: "Math",
   },
   {
-    name: "Brantley Barnhill",
-    email: "brantleyt.barnhill@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Choral Music",
-  },
-  {
-    name: "Kimberly Baucom",
-    email: "kimberlya.baucom@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English Learner",
-  },
-  {
-    name: "Victoria Berke",
-    email: "victorial.berke@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Christopher Bidell",
-    email: "christopherf.bidell@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Jeffrey Bronstad",
-    email: "jeffreyp.bronstad@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Biology",
-  },
-  {
-    name: "Carynn Buckley",
-    email: "carynnh.buckley@cms.k12.nc.us",
+    name: "Stephen Cook",
+    email: "stephen.cook@cms.k12.nc.us",
     role: "Teacher",
     department: "Math",
   },
+
+  // English Teachers
   {
-    name: "Yinessa Bueno",
-    email: "yinessa1.bueno@cms.k12.nc.us",
+    name: "Katherine Baker",
+    email: "katherinej.baker@cms.k12.nc.us",
     role: "Teacher",
     department: "English",
   },
   {
-    name: "Luella Burnett-Windt",
-    email: "luellar.burnett@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English Learner",
-  },
-  {
-    name: "Susan Busbee",
-    email: "susans.busbee@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Health Occupations",
-  },
-  {
-    name: "Ashli Calvert",
-    email: "ashlis.calvert@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Theater Arts",
-  },
-  {
-    name: "McKinley Campbell",
-    email: "mckinleyl.campbell@cms.k12.nc.us",
+    name: "Yinessa Bueno",
+    email: "yinessa1.bueno@cms.k12.nc.us",
     role: "Teacher",
     department: "English",
   },
@@ -204,40 +122,64 @@ export const staffDirectory: StaffMember[] = [
     department: "English",
   },
   {
+    name: "Juliann Colombo",
+    email: "juliann1.colombo@cms.k12.nc.us",
+    role: "Teacher",
+    department: "English",
+  },
+
+  // Choral Music
+  {
+    name: "Brantley Barnhill",
+    email: "brantleyt.barnhill@cms.k12.nc.us",
+    role: "Teacher",
+    department: "Choral Music",
+  },
+
+  // Social Studies Teachers
+  {
+    name: "Christopher Bidell",
+    email: "christopherf.bidell@cms.k12.nc.us",
+    role: "Teacher",
+    department: "Social Studies",
+  },
+  {
     name: "Whesley Carey",
     email: "whesleym.carey@cms.k12.nc.us",
     role: "Teacher",
     department: "Social Studies",
   },
+
+  // Biology Teachers
   {
-    name: "Thomas Castello",
-    email: "thomas1.castello@cms.k12.nc.us",
+    name: "Jeffrey Bronstad",
+    email: "jeffreyp.bronstad@cms.k12.nc.us",
     role: "Teacher",
-    department: "Physical Education",
+    department: "Biology",
   },
+
+  // Health Occupations
   {
-    name: "Bryan Chung",
-    email: "bryans.chung@cms.k12.nc.us",
+    name: "Susan Busbee",
+    email: "susans.busbee@cms.k12.nc.us",
     role: "Teacher",
-    department: "Math",
+    department: "Health Occupations",
   },
+
+  // Theater Arts
   {
-    name: "Dorit Cohen",
-    email: "doritw.cohen@cms.k12.nc.us",
+    name: "Ashli Calvert",
+    email: "ashlis.calvert@cms.k12.nc.us",
     role: "Teacher",
-    department: "English Learner",
+    department: "Theater Arts",
   },
+
+  // Business Education
   {
-    name: "Samuel Cole",
-    email: "samuelj.cole@cms.k12.nc.us",
+    name: "Leah Campbell",
+    email: "leah1.campbell@cms.k12.nc.us",
     role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Juliann Colombo",
-    email: "juliann1.colombo@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
+    department: "Business Education",
   },
   {
     name: "Jennifer Comer",
@@ -245,767 +187,37 @@ export const staffDirectory: StaffMember[] = [
     role: "Teacher",
     department: "Business Education",
   },
-  {
-    name: "Stephen Cook",
-    email: "stephen.cook@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Iryna Covarrubias",
-    email: "irynac.covarrubias@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English Learner",
-  },
+
+  // Physical Education
   {
     name: "Michael Craft",
     email: "michael.craft@cms.k12.nc.us",
     role: "Teacher",
     department: "Physical Education",
   },
-  {
-    name: "Kelli Crockett",
-    email: "kellin.crockett@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Art",
-  },
-  {
-    name: "Matthew Crouch",
-    email: "matthewa.crouch@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
+
+  // Spanish
   {
     name: "Anays Cruz",
     email: "anaysr.cruz@cms.k12.nc.us",
     role: "Teacher",
     department: "Spanish",
   },
+
+  // Marketing Education
   {
     name: "Jenell Davis",
     email: "jenells.davis@cms.k12.nc.us",
     role: "Teacher",
     department: "Marketing Education",
   },
+
+  // Architecture
   {
     name: "Lloyd Davis",
     email: "lloydr.davis@cms.k12.nc.us",
     role: "Teacher",
     department: "Architecture",
-  },
-  {
-    name: "Trina Davis",
-    email: "trinal.davis@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Jennifer Day",
-    email: "jenniferw.day@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Chemistry",
-  },
-  {
-    name: "LaTavia Dixon",
-    email: "latavian.rorie@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Wendy Donahue",
-    email: "wendy1.donahue@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Biology",
-  },
-  {
-    name: "Tanja Donelson",
-    email: "tanjaa.donelson@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Ben Dowless",
-    email: "benw.dowless@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Bretton Drake",
-    email: "brettonp.drake@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Physical Education",
-  },
-  {
-    name: "Kerry Dwyer",
-    email: "kerrya.dwyer@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Heather Earnhardt",
-    email: "heathern.earnhardt@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Jessica Elliott",
-    email: "jessicae.elliott@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Teresa Elshoff",
-    email: "teresa.elshoff@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Health Occupations",
-  },
-  {
-    name: "Tyler Erb",
-    email: "tyler1.erb@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Georgianna Farwell",
-    email: "georgiannap.farwell@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Katherine Fisher",
-    email: "katherineb.fisher@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Marketing Education",
-  },
-  {
-    name: "Rachel Flock",
-    email: "rachele.flock@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Andrew Francis",
-    email: "andrewr.francis@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Band",
-  },
-  {
-    name: "Katherine Francis",
-    email: "katherinen.francis@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Dana Frank",
-    email: "danao.frank@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Josh Gaddis",
-    email: "josh1.gaddis@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Jennifer Gallagher",
-    email: "jennifer.gallagher@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Chemistry",
-  },
-  {
-    name: "Kristan Gehrman",
-    email: "kristanm.gehrman@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "John Glenn",
-    email: "john.glenn@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Carter Greene",
-    email: "carterp.greene@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Claire Greene",
-    email: "claireg.greene@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Spanish",
-  },
-  {
-    name: "Matthew Greiling",
-    email: "matthew1.greiling@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Brian Hacker",
-    email: "brian1.hacker@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Julia Hagemeier",
-    email: "juliab.hagemeier@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Stephen Hairgrove",
-    email: "stephen.hairgrove@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Daniel Harabin",
-    email: "daniel.harabin@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Richard Harabin",
-    email: "richard1.harabin@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Chemistry",
-  },
-  {
-    name: "Kerri Harding",
-    email: "kerrij.harding@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Mark Harman",
-    email: "mark.harman@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Physical Education",
-  },
-  {
-    name: "Laura Hartline",
-    email: "laura1.hartline@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Adam Henry",
-    email: "adamb.henry@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "William Hook",
-    email: "williamg.hook@cms.k12.nc.us",
-    role: "Teacher",
-    department: "History",
-  },
-  {
-    name: "Carly Howie",
-    email: "carlyb.howie@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Benjamin Ingle",
-    email: "benjaminr.ingle@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Amy Ingoglia",
-    email: "amy1.ingoglia@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Earth Science",
-  },
-  {
-    name: "Greg Jachym",
-    email: "greg.jachym@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Physical Education",
-  },
-  {
-    name: "Stacey Jarvis",
-    email: "stacey.jarvis@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Brian Johnson",
-    email: "brian1.johnson@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Marketing Education",
-  },
-  {
-    name: "Amanda Jones",
-    email: "amandal.jones@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Bellanco Jones",
-    email: "bellanco1.jones@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Gregory Jones",
-    email: "gregoryd.jones@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Daniel Karaszewski",
-    email: "danielj.karaszewski@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "John Kirby",
-    email: "johnc.kirby@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Steve Kollman",
-    email: "stevel.kollman@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Raymond Kong",
-    email: "raymondn.kong@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Teresa Lally-Davis",
-    email: "teresaa.lally-davis@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Kimberly Landis",
-    email: "kimberly1.landis@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Hayley Lawson",
-    email: "hayley1.lawson@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Tammye Layer",
-    email: "tammyeb.layer@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Marcie Lebowitz",
-    email: "marcie.lebowitz@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Richard Lemaster",
-    email: "richard1.lemaster@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Lindsey Litaker",
-    email: "lindseye.litaker@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Ana Long",
-    email: "anan.long@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Spanish",
-  },
-  {
-    name: "Dalton Mallonee",
-    email: "daltonh.mallonee@cms.k12.nc.us",
-    role: "Teacher",
-    department: "History",
-  },
-  {
-    name: "Angela Marmolejo",
-    email: "angelam.marmolejo@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Spanish",
-  },
-  {
-    name: "Cory McAvoy",
-    email: "coryr.mcavoy@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Margaret McCann",
-    email: "margaret.mccann@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Jason McCutcheon",
-    email: "jasone.mccutcheon@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Michael McDowell",
-    email: "michaelr.mcdowell@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Mary McAfee",
-    email: "maryk.mcafee@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Kisha Medina-Whitney",
-    email: "ka.medina-whitney@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Spanish",
-  },
-  {
-    name: "Susan Milkey",
-    email: "susan.milkey@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Spanish",
-  },
-  {
-    name: "Corey Miller",
-    email: "coreya.miller@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Kim Montgomery",
-    email: "kime.montgomery@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Physical Education",
-  },
-  {
-    name: "Megan Moore",
-    email: "megana.moore@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Marketing Education",
-  },
-  {
-    name: "Sharon Mudd",
-    email: "shari.mudd@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Biology",
-  },
-  {
-    name: "Cheryl Murray",
-    email: "cheryl.murray@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Spanish",
-  },
-  {
-    name: "Diana Niemann",
-    email: "diana.shell@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Anahel Novo",
-    email: "anahele.novo@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Patricia Nowacky",
-    email: "patricia.nowacky@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Alexander Olinger",
-    email: "alexanders.olinger@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Cherie Page",
-    email: "cheries.page@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Dawn Patterson",
-    email: "dawnp.patterson@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Hayley Patterson",
-    email: "hayleye.patterson@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Sarah Payseur",
-    email: "sarahj.payseur@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Master",
-  },
-  {
-    name: "Brittney Pegram",
-    email: "brittney1.pegram@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Shawna Pettinati",
-    email: "shawna.pettinati@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Physical Education",
-  },
-  {
-    name: "Judy Piercy",
-    email: "judy1.piercy@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Gretchen Pikus",
-    email: "gretchenl.pikus@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Timothy Price",
-    email: "timothy.price@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Vidya Rao",
-    email: "vidya1.rao@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Tyler Redding",
-    email: "tylera.redding@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Physical Education",
-  },
-  {
-    name: "Rickie Rhoda",
-    email: "rickiel.rhoda@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Jessica Ruday",
-    email: "jessicam.ruday@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Darlene Sanders",
-    email: "darlenel.sanders@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Stephanie Sayward",
-    email: "stephaniee.clark@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Kevin Schneider",
-    email: "kevinp.schneider@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Elena Schreiner",
-    email: "elenam.schreiner@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Kelly Schueneman",
-    email: "kellyj.schueneman@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Richard Seeley II",
-    email: "richarde.seeleyii@cms.k12.nc.us",
-    role: "Teacher",
-    department: "ROTC",
-  },
-  {
-    name: "Tasha Sherrill",
-    email: "tashas.sherrill@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Lance Shinn",
-    email: "lances.shinn@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Jane Sickles",
-    email: "janeb.sickles@cms.k12.nc.us",
-    role: "Teacher",
-    department: "French",
-  },
-  {
-    name: "Scott Silvia",
-    email: "scottp.silvia@cms.k12.nc.us",
-    role: "Teacher",
-    department: "ROTC",
-  },
-  {
-    name: "Altovese Simmons",
-    email: "altovese1.simmons@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Mary Katherine Slattery",
-    email: "m1.slattery@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Math",
-  },
-  {
-    name: "Sherri Smith",
-    email: "sherriw.smith@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English Learner",
-  },
-  {
-    name: "Scott Snyder",
-    email: "scotta.snyder@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Angela Spicer",
-    email: "angelad.spicer@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Jeffrey Sprenger",
-    email: "jeffreyl.sprenger@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Physical Education",
-  },
-  {
-    name: "Hillary Steere",
-    email: "hillary1.steere@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Selena Tell",
-    email: "selena.goldston@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Art",
-  },
-  {
-    name: "Jennifer Thomas",
-    email: "jenniferl.thomas@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Master",
-  },
-  {
-    name: "Meryl Thomas",
-    email: "meryll.thomas@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Sophia Thomas",
-    email: "sophian.thomas@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Amanda Thornton",
-    email: "amanda1.thornton@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Exceptional Children",
-  },
-  {
-    name: "Tricia Titus",
-    email: "tricia.titus@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "John Tonissen",
-    email: "johna.tonissen@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Leah Tonissen",
-    email: "leahc.tonissen@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
-  },
-  {
-    name: "Kervise Walker",
-    email: "kervise1.walker@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Jennifer Wall Lumseyfai",
-    email: "jennifer.wall@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Spanish",
-  },
-  {
-    name: "Elizabeth Warshauer",
-    email: "elizabeth1.warshauer@cms.k12.nc.us",
-    role: "Teacher",
-    department: "English",
-  },
-  {
-    name: "Pamela Weghorst",
-    email: "pamela.weghorst@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Science",
-  },
-  {
-    name: "Sandra Wheeler",
-    email: "sandra1.wheeler@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Business Education",
-  },
-  {
-    name: "Kim Wilson",
-    email: "kimm.wilson@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Health Occupations",
-  },
-  {
-    name: "Jeffrey Zwally",
-    email: "jeffreys.zwally@cms.k12.nc.us",
-    role: "Teacher",
-    department: "Social Studies",
   },
 ]
 
@@ -1017,8 +229,12 @@ export function getStaffMemberByEmail(email: string): StaffMember | undefined {
   return staffDirectory.find((staff) => staff.email.toLowerCase() === email.toLowerCase())
 }
 
-export function getStaffMembersByDepartment(department: string): StaffMember[] {
-  return staffDirectory.filter((staff) => staff.department.toLowerCase() === department.toLowerCase())
+export function getStaffByDepartment(department: string): StaffMember[] {
+  return staffDirectory.filter((staff) => staff.department === department)
+}
+
+export function getAllDepartments(): string[] {
+  return [...new Set(staffDirectory.map((staff) => staff.department))]
 }
 
 export function getAllStaffMembers(): StaffMember[] {
