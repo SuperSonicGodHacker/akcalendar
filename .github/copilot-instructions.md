@@ -117,6 +117,57 @@ middleware.ts         # Edge middleware — protects mutation API routes
 
 ---
 
+## Git Conventions
+
+### Repository
+- Remote: `origin` → `https://github.com/SuperSonicGodHacker/akcalendar.git`
+- Default branch: `main` — always deployable, never commit broken code directly to `main`
+
+### Branching
+- Create a feature branch for every change: `git checkout -b <type>/<short-description>`
+- Branch name examples: `feat/auth-nextauth`, `fix/api-session-check`, `chore/update-deps`
+- Delete the branch after it is merged
+
+### Commit Message Format
+This project uses **Conventional Commits**. Every commit message must follow this structure:
+
+```
+<type>(<optional scope>): <short summary in present tense>
+```
+
+**Types:**
+
+| Type | When to use |
+|---|---|
+| `feat` | Adding a new feature |
+| `fix` | Fixing a bug |
+| `chore` | Maintenance — deps, config, tooling (no production logic change) |
+| `refactor` | Code restructure with no behaviour change |
+| `style` | Formatting, whitespace, Tailwind class order — no logic change |
+| `docs` | Changes to documentation or comments only |
+| `security` | Security hardening — auth, input validation, secret handling |
+
+**Examples from this project:**
+```
+feat(auth): add NextAuth credentials provider with bcrypt
+fix(api): add session check to announcements POST route
+security: move admin credentials from source to env vars
+chore: install next-auth@beta and bcryptjs
+```
+
+**Rules:**
+- Summary is lowercase, no trailing full stop, max ~72 characters
+- Use the body (blank line after summary) to explain *why*, not *what*
+- Never commit `.env` — it is gitignored
+
+### Before Every Commit Checklist
+1. No hardcoded credentials or secrets in staged files
+2. `.env` is not staged (`git status` should not show it)
+3. `next build` passes without errors
+4. TypeScript has no new errors
+
+---
+
 ## Approved Dependencies
 
 These are the only dependencies approved for this project. Do not introduce any library outside this list without explicit user approval.
