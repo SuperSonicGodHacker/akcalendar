@@ -1,9 +1,14 @@
 import { neon } from "@neondatabase/serverless"
-import { NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 
 const sql = neon(process.env.DATABASE_URL!)
 
-export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const sessionId = request.cookies.get("session")?.value
+  if (!sessionId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  const sessions = await sql`SELECT id FROM sessions WHERE id = ${sessionId} AND expires_at > NOW()`
+  if (sessions.length === 0) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+
   try {
     const { id } = await params
     const body = await request.json()
@@ -31,7 +36,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   }
 }
 
-export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const sessionId = request.cookies.get("session")?.value
+  if (!sessionId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  const sessions = await sql`SELECT id FROM sessions WHERE id = ${sessionId} AND expires_at > NOW()`
+  if (sessions.length === 0) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+
   try {
     const { id } = await params
 

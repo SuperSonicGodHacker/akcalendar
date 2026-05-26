@@ -26,6 +26,11 @@ export async function GET() {
 
 // POST - Create a new event
 export async function POST(request: NextRequest) {
+  const sessionId = request.cookies.get("session")?.value
+  if (!sessionId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  const sessions = await sql`SELECT id FROM sessions WHERE id = ${sessionId} AND expires_at > NOW()`
+  if (sessions.length === 0) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+
   try {
     const newEvent = await request.json()
 

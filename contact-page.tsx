@@ -11,7 +11,7 @@ import { getAllStaffMembers } from "@/lib/staff-directory"
 
 interface ContactPageProps {
   onNavigate: (page: string) => void
-  user: { id: number; email: string; name: string; role: string }
+  user: { id: number; email: string; name: string; role: string } | null
   onLogout: () => void
   viewAsStudent: boolean
   setViewAsStudent: (value: boolean) => void
@@ -19,8 +19,6 @@ interface ContactPageProps {
 
 export default function ContactPage({
   onNavigate,
-  viewAsStudent,
-  setViewAsStudent
 }: ContactPageProps) {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("all")

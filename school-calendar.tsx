@@ -44,7 +44,7 @@ interface User {
 
 interface SchoolCalendarProps {
   onNavigate: (page: string) => void
-  user: User
+  user: User | null
   onLogout: () => void
   viewAsStudent: boolean
   setViewAsStudent: (value: boolean) => void
@@ -347,36 +347,47 @@ const handleUpdateEvent = async () => {
                 </button>
               </nav>
               <div className="flex items-center space-x-2">
-                  <span className="text-sm">{user.name || user.email}</span>
-                  {!viewAsStudent && (
+                {user ? (
+                  <>
+                    <span className="text-sm">{user.name || user.email}</span>
+                    {!viewAsStudent && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setViewAsStudent(true)}
+                        className="bg-white text-purple-900 hover:bg-gray-100"
+                      >
+                        View as Student
+                      </Button>
+                    )}
+                    {viewAsStudent && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setViewAsStudent(false)}
+                        className="bg-white text-purple-900 hover:bg-gray-100"
+                      >
+                        View as Admin
+                      </Button>
+                    )}
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setViewAsStudent(true)}
+                      onClick={onLogout}
                       className="bg-white text-purple-900 hover:bg-gray-100"
                     >
-                      View as Student
+                      <LogOut className="h-4 w-4 mr-1" />
+                      Logout
                     </Button>
-                  )}
-                  {viewAsStudent && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setViewAsStudent(false)}
-                      className="bg-white text-purple-900 hover:bg-gray-100"
-                    >
-                      View as Admin
-                    </Button>
-                  )}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={onLogout}
-                    className="bg-white text-purple-900 hover:bg-gray-100"
+                  </>
+                ) : (
+                  <a
+                    href="/login"
+                    className="text-sm bg-white text-purple-900 hover:bg-gray-100 px-3 py-1 rounded border font-medium"
                   >
-                    <LogOut className="h-4 w-4 mr-1" />
-                    Logout
-                  </Button>
+                    Admin Sign In
+                  </a>
+                )}
                 </div>
             </div>
           </div>
@@ -458,7 +469,7 @@ const handleUpdateEvent = async () => {
               Next
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
-            {!viewAsStudent && (
+            {user && !viewAsStudent && (
               <Button size="sm" className="bg-purple-600 hover:bg-purple-700" onClick={() => setShowAddEvent(true)}>
                 <Plus className="h-4 w-4 mr-1" />
                 Add Event
@@ -519,7 +530,7 @@ const handleUpdateEvent = async () => {
                               variant="secondary"
                               className={`text-xs px-2 py-1 block w-full text-left cursor-pointer ${eventColor} border`}
                               onClick={() => {
-                                if (!viewAsStudent && !event.isAdministrative) {
+                                if (user && !viewAsStudent && !event.isAdministrative) {
                                   handleEditEvent(event, eventIndex)
                                 } else {
                                   handleViewEvent(event)
@@ -528,7 +539,7 @@ const handleUpdateEvent = async () => {
                             >
                               {event.title}
                             </Badge>
-                            {!viewAsStudent && (
+                            {user && !viewAsStudent && (
                               <Button
                                 size="sm"
                                 variant="ghost"

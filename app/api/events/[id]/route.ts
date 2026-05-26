@@ -5,6 +5,11 @@ const sql = neon(process.env.DATABASE_URL!)
 
 // PUT - Update an event
 export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const sessionId = request.cookies.get("session")?.value
+  if (!sessionId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  const sessions = await sql`SELECT id FROM sessions WHERE id = ${sessionId} AND expires_at > NOW()`
+  if (sessions.length === 0) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+
   try {
     const { id } = await params
     const numericId = Number.parseInt(id, 10)
@@ -54,6 +59,11 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
 // DELETE - Delete an event
 export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const sessionId = request.cookies.get("session")?.value
+  if (!sessionId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  const sessions = await sql`SELECT id FROM sessions WHERE id = ${sessionId} AND expires_at > NOW()`
+  if (sessions.length === 0) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+
   try {
     const { id } = await params
     const numericId = Number.parseInt(id, 10)

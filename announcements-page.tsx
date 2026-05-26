@@ -30,7 +30,7 @@ interface User {
 
 interface AnnouncementsPageProps {
   onNavigate: (page: string) => void
-  user: User
+  user: User | null
   onLogout: () => void
   viewAsStudent: boolean
   setViewAsStudent: (value: boolean) => void
@@ -103,7 +103,7 @@ export default function AnnouncementsPage({
             title: newAnnouncement.title,
             content: newAnnouncement.content,
             category: newAnnouncement.category,
-            posted_by: user.name || user.email,
+            posted_by: user?.name || user?.email || 'Admin',
           }),
         })
         if (response.ok) {
@@ -214,35 +214,46 @@ export default function AnnouncementsPage({
                 </button>
               </nav>
               <div className="flex items-center space-x-2">
-                  <span className="text-sm">{user.name || user.email}</span>
-                  {!viewAsStudent && (
+                {user ? (
+                  <>
+                    <span className="text-sm">{user.name || user.email}</span>
+                    {!viewAsStudent && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setViewAsStudent(true)}
+                        className="bg-white text-purple-900 hover:bg-gray-100"
+                      >
+                        View as Student
+                      </Button>
+                    )}
+                    {viewAsStudent && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setViewAsStudent(false)}
+                        className="bg-white text-purple-900 hover:bg-gray-100"
+                      >
+                        View as Admin
+                      </Button>
+                    )}
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setViewAsStudent(true)}
+                      onClick={onLogout}
                       className="bg-white text-purple-900 hover:bg-gray-100"
                     >
-                      View as Student
+                      Logout
                     </Button>
-                  )}
-                  {viewAsStudent && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setViewAsStudent(false)}
-                      className="bg-white text-purple-900 hover:bg-gray-100"
-                    >
-                      View as Admin
-                    </Button>
-                  )}
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={onLogout}
-                    className="bg-white text-purple-900 hover:bg-gray-100"
+                  </>
+                ) : (
+                  <a
+                    href="/login"
+                    className="text-sm bg-white text-purple-900 hover:bg-gray-100 px-3 py-1 rounded border font-medium"
                   >
-                    Logout
-                  </Button>
+                    Admin Sign In
+                  </a>
+                )}
                 </div>
             </div>
           </div>
@@ -382,7 +393,7 @@ export default function AnnouncementsPage({
             </Button>
             <h2 className="text-3xl font-bold text-gray-900">Announcements</h2>
           </div>
-          {!viewAsStudent && (
+          {user && !viewAsStudent && (
             <div className="flex space-x-2">
               <Button onClick={() => setShowAddAnnouncement(true)} className="bg-purple-600 hover:bg-purple-700">
                 <Plus className="h-4 w-4 mr-2" />
@@ -451,7 +462,7 @@ export default function AnnouncementsPage({
                         </div>
                         <CardTitle className="text-xl">{announcement.title}</CardTitle>
                       </div>
-                      {!viewAsStudent && (
+                      {user && !viewAsStudent && (
                         <div className="flex space-x-1">
                           <Button size="sm" variant="ghost">
                             <Edit className="h-4 w-4" />

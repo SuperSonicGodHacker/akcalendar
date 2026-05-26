@@ -1,5 +1,5 @@
 import { neon } from "@neondatabase/serverless"
-import { NextResponse } from "next/server"
+import { type NextRequest, NextResponse } from "next/server"
 
 const sql = neon(process.env.DATABASE_URL!)
 
@@ -15,7 +15,12 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+  const sessionId = request.cookies.get("session")?.value
+  if (!sessionId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  const sessions = await sql`SELECT id FROM sessions WHERE id = ${sessionId} AND expires_at > NOW()`
+  if (sessions.length === 0) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+
   try {
     const body = await request.json()
     const { title, content, category, posted_by } = body
