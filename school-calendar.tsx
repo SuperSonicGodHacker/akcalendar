@@ -11,7 +11,7 @@ import Image from "next/image"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { fetchEvents, createEvent, updateEvent, deleteEvent, type Event } from "@/lib/api"
-import { isValidStaffEmail, getStaffMemberByEmail } from "@/lib/staff-directory"
+
 import { getABDayForDate } from "@/lib/ab-day-schedule"
 import { getDailyQuote } from "@/lib/daily-quotes"
 
@@ -35,32 +35,29 @@ const eventCategories = [
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 
+interface User {
+  id: number
+  email: string
+  name: string
+  role: string
+}
+
 interface SchoolCalendarProps {
   onNavigate: (page: string) => void
-  isLoggedIn: boolean
-  setIsLoggedIn: (value: boolean) => void
-  currentStaffMember: any
-  setCurrentStaffMember: (value: any) => void
+  user: User
+  onLogout: () => void
   viewAsStudent: boolean
   setViewAsStudent: (value: boolean) => void
 }
 
-export default function SchoolCalendar({ 
-  onNavigate, 
-  isLoggedIn, 
-  setIsLoggedIn, 
-  currentStaffMember, 
-  setCurrentStaffMember,
+export default function SchoolCalendar({
+  onNavigate,
+  user,
+  onLogout,
   viewAsStudent,
-  setViewAsStudent 
+  setViewAsStudent
 }: SchoolCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date(2025, 5, 1)) // June 2025
-  const [showLogin, setShowLogin] = useState(false)
-  const [showEmailVerification, setShowEmailVerification] = useState(false)
-  const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" })
-  const [staffEmail, setStaffEmail] = useState("")
-  const [verificationCode, setVerificationCode] = useState("")
-  const [sentCode, setSentCode] = useState("")
   const [selectedCategories, setSelectedCategories] = useState([
     "sports",
     "fine-arts",
@@ -124,46 +121,6 @@ export default function SchoolCalendar({
     return getABDayForDate(date.getFullYear(), date.getMonth(), date.getDate())
   }
 
-  const handleLogin = () => {
-    if (loginCredentials.username === "akadministrator2026" && loginCredentials.password === "akadminpassword2026") {
-      setShowLogin(false)
-      setShowEmailVerification(true)
-      setLoginCredentials({ username: "", password: "" })
-    } else {
-      alert("Invalid credentials")
-    }
-  }
-
-  const handleEmailVerification = () => {
-    if (!isValidStaffEmail(staffEmail)) {
-      alert("Invalid staff email. Please enter a valid Ardrey Kell staff email address.")
-      return
-    }
-
-    const staffMember = getStaffMemberByEmail(staffEmail)
-    if (staffMember) {
-      setCurrentStaffMember(staffMember)
-      const code = Math.floor(100000 + Math.random() * 900000).toString()
-      setSentCode(code)
-      alert(`Verification code sent to ${staffEmail}: ${code}`)
-    }
-  }
-
-  const handleVerificationSubmit = () => {
-    if (verificationCode === sentCode) {
-      setIsLoggedIn(true)
-      setShowEmailVerification(false)
-      setStaffEmail("")
-      setVerificationCode("")
-      setSentCode("")
-    } else {
-      alert("Invalid verification code")
-    }
-  }
-
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-  }
 
   const handleAddEvent = async () => {
     if (newEvent.title && newEvent.date && newEvent.category) {
@@ -389,9 +346,8 @@ const handleUpdateEvent = async () => {
                   Staff Contacts
                 </button>
               </nav>
-              {isLoggedIn ? (
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm">{currentStaffMember?.name || "Admin"}</span>
+              <div className="flex items-center space-x-2">
+                  <span className="text-sm">{user.name || user.email}</span>
                   {!viewAsStudent && (
                     <Button
                       variant="outline"
@@ -415,120 +371,17 @@ const handleUpdateEvent = async () => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={handleLogout}
+                    onClick={onLogout}
                     className="bg-white text-purple-900 hover:bg-gray-100"
                   >
                     <LogOut className="h-4 w-4 mr-1" />
                     Logout
                   </Button>
                 </div>
-              ) : (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowLogin(true)}
-                  className="bg-white text-purple-900 hover:bg-gray-100"
-                >
-                  Admin Login
-                </Button>
-              )}
             </div>
           </div>
         </div>
       </header>
-
-      {/* Login Modal */}
-      {showLogin && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-96">
-            <CardHeader>
-              <CardTitle>Admin Login</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  value={loginCredentials.username}
-                  onChange={(e) => setLoginCredentials((prev) => ({ ...prev, username: e.target.value }))}
-                />
-              </div>
-              <div>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={loginCredentials.password}
-                  onChange={(e) => setLoginCredentials((prev) => ({ ...prev, password: e.target.value }))}
-                />
-              </div>
-              <div className="flex space-x-2">
-                <Button onClick={handleLogin} className="flex-1">
-                  Login
-                </Button>
-                <Button variant="outline" onClick={() => setShowLogin(false)} className="flex-1">
-                  Cancel
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* Email Verification Modal */}
-      {showEmailVerification && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-96">
-            <CardHeader>
-              <CardTitle>Staff Email Verification</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="email">Staff Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your.name@cms.k12.nc.us"
-                  value={staffEmail}
-                  onChange={(e) => setStaffEmail(e.target.value)}
-                />
-                <Button onClick={handleEmailVerification} className="mt-2 w-full" disabled={!staffEmail}>
-                  Send Verification Code
-                </Button>
-              </div>
-              {sentCode && (
-                <div>
-                  <Label htmlFor="verification">Verification Code</Label>
-                  <Input
-                    id="verification"
-                    placeholder="Enter 6-digit code"
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                  />
-                  <div className="flex space-x-2 mt-2">
-                    <Button onClick={handleVerificationSubmit} className="flex-1">
-                      Verify
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setShowEmailVerification(false)
-                        setStaffEmail("")
-                        setVerificationCode("")
-                        setSentCode("")
-                        setCurrentStaffMember(null)
-                      }}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      )}
 
       {/* Daily Quote */}
       <div className="bg-gradient-to-r from-purple-50 to-purple-100 border-b">
@@ -605,7 +458,7 @@ const handleUpdateEvent = async () => {
               Next
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
-            {isLoggedIn && !viewAsStudent && (
+            {!viewAsStudent && (
               <Button size="sm" className="bg-purple-600 hover:bg-purple-700" onClick={() => setShowAddEvent(true)}>
                 <Plus className="h-4 w-4 mr-1" />
                 Add Event
@@ -666,16 +519,16 @@ const handleUpdateEvent = async () => {
                               variant="secondary"
                               className={`text-xs px-2 py-1 block w-full text-left cursor-pointer ${eventColor} border`}
                               onClick={() => {
-                                if (isLoggedIn && !viewAsStudent && !event.isAdministrative) {
+                                if (!viewAsStudent && !event.isAdministrative) {
                                   handleEditEvent(event, eventIndex)
-                                } else if (!isLoggedIn || viewAsStudent) {
+                                } else {
                                   handleViewEvent(event)
                                 }
                               }}
                             >
                               {event.title}
                             </Badge>
-                            {isLoggedIn && !viewAsStudent && (
+                            {!viewAsStudent && (
                               <Button
                                 size="sm"
                                 variant="ghost"

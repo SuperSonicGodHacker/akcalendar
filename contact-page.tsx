@@ -11,20 +11,14 @@ import { getAllStaffMembers } from "@/lib/staff-directory"
 
 interface ContactPageProps {
   onNavigate: (page: string) => void
-  isLoggedIn: boolean
-  setIsLoggedIn: (value: boolean) => void
-  currentStaffMember: any
-  setCurrentStaffMember: (value: any) => void
+  user: { id: number; email: string; name: string; role: string }
+  onLogout: () => void
   viewAsStudent: boolean
   setViewAsStudent: (value: boolean) => void
 }
 
-export default function ContactPage({ 
+export default function ContactPage({
   onNavigate,
-  isLoggedIn,
-  setIsLoggedIn,
-  currentStaffMember,
-  setCurrentStaffMember,
   viewAsStudent,
   setViewAsStudent
 }: ContactPageProps) {

@@ -10,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import Image from "next/image"
-import { isValidStaffEmail, getStaffMemberByEmail } from "@/lib/staff-directory"
+
 
 interface Announcement {
   id: number
@@ -21,33 +21,30 @@ interface Announcement {
   posted_by: string
 }
 
+interface User {
+  id: number
+  email: string
+  name: string
+  role: string
+}
+
 interface AnnouncementsPageProps {
   onNavigate: (page: string) => void
-  isLoggedIn: boolean
-  setIsLoggedIn: (value: boolean) => void
-  currentStaffMember: any
-  setCurrentStaffMember: (value: any) => void
+  user: User
+  onLogout: () => void
   viewAsStudent: boolean
   setViewAsStudent: (value: boolean) => void
 }
 
-export default function AnnouncementsPage({ 
+export default function AnnouncementsPage({
   onNavigate,
-  isLoggedIn,
-  setIsLoggedIn,
-  currentStaffMember,
-  setCurrentStaffMember,
+  user,
+  onLogout,
   viewAsStudent,
   setViewAsStudent
 }: AnnouncementsPageProps) {
-  const [showLogin, setShowLogin] = useState(false)
-  const [showEmailVerification, setShowEmailVerification] = useState(false)
   const [showAddAnnouncement, setShowAddAnnouncement] = useState(false)
   const [showAddEvent, setShowAddEvent] = useState(false)
-  const [loginCredentials, setLoginCredentials] = useState({ username: "", password: "" })
-  const [staffEmail, setStaffEmail] = useState("")
-  const [verificationCode, setVerificationCode] = useState("")
-  const [sentCode, setSentCode] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -95,46 +92,6 @@ export default function AnnouncementsPage({
     { id: "volunteer", label: "Volunteer Opportunities", icon: Heart },
   ]
 
-  const handleLogin = () => {
-    if (loginCredentials.username === "akadministrator2026" && loginCredentials.password === "akadminpassword2026") {
-      setShowLogin(false)
-      setShowEmailVerification(true)
-      setLoginCredentials({ username: "", password: "" })
-    } else {
-      alert("Invalid credentials")
-    }
-  }
-
-  const handleEmailVerification = () => {
-    if (!isValidStaffEmail(staffEmail)) {
-      alert("Invalid staff email. Please enter a valid Ardrey Kell staff email address.")
-      return
-    }
-
-    const staffMember = getStaffMemberByEmail(staffEmail)
-    if (staffMember) {
-      setCurrentStaffMember(staffMember)
-      const code = Math.floor(100000 + Math.random() * 900000).toString()
-      setSentCode(code)
-      alert(`Verification code sent to ${staffEmail}: ${code}`)
-    }
-  }
-
-  const handleVerificationSubmit = () => {
-    if (verificationCode === sentCode) {
-      setIsLoggedIn(true)
-      setShowEmailVerification(false)
-      setStaffEmail("")
-      setVerificationCode("")
-      setSentCode("")
-    } else {
-      alert("Invalid verification code")
-    }
-  }
-
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-  }
 
   const handleAddAnnouncement = async () => {
     if (newAnnouncement.title && newAnnouncement.content && newAnnouncement.category) {
@@ -146,7 +103,7 @@ export default function AnnouncementsPage({
             title: newAnnouncement.title,
             content: newAnnouncement.content,
             category: newAnnouncement.category,
-            posted_by: currentStaffMember?.name || "Admin",
+            posted_by: user.name || user.email,
           }),
         })
         if (response.ok) {
@@ -256,9 +213,8 @@ export default function AnnouncementsPage({
                   Staff Contacts
                 </button>
               </nav>
-              {isLoggedIn ? (
-                <div className="flex items-center space-x-2">
-                  <span className="text-sm">{currentStaffMember?.name || "Admin"}</span>
+              <div className="flex items-center space-x-2">
+                  <span className="text-sm">{user.name || user.email}</span>
                   {!viewAsStudent && (
                     <Button
                       variant="outline"
@@ -282,119 +238,16 @@ export default function AnnouncementsPage({
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={handleLogout}
+                    onClick={onLogout}
                     className="bg-white text-purple-900 hover:bg-gray-100"
                   >
                     Logout
                   </Button>
                 </div>
-              ) : (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowLogin(true)}
-                  className="bg-white text-purple-900 hover:bg-gray-100"
-                >
-                  Admin Login
-                </Button>
-              )}
             </div>
           </div>
         </div>
       </header>
-
-      {/* Login Modal */}
-      {showLogin && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-96">
-            <CardHeader>
-              <CardTitle>Admin Login</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  value={loginCredentials.username}
-                  onChange={(e) => setLoginCredentials((prev) => ({ ...prev, username: e.target.value }))}
-                />
-              </div>
-              <div>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={loginCredentials.password}
-                  onChange={(e) => setLoginCredentials((prev) => ({ ...prev, password: e.target.value }))}
-                />
-              </div>
-              <div className="flex space-x-2">
-                <Button onClick={handleLogin} className="flex-1">
-                  Login
-                </Button>
-                <Button variant="outline" onClick={() => setShowLogin(false)} className="flex-1">
-                  Cancel
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
-      {/* Email Verification Modal */}
-      {showEmailVerification && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-96">
-            <CardHeader>
-              <CardTitle>Staff Email Verification</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="email">Staff Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your.name@cms.k12.nc.us"
-                  value={staffEmail}
-                  onChange={(e) => setStaffEmail(e.target.value)}
-                />
-                <Button onClick={handleEmailVerification} className="mt-2 w-full" disabled={!staffEmail}>
-                  Send Verification Code
-                </Button>
-              </div>
-              {sentCode && (
-                <div>
-                  <Label htmlFor="verification">Verification Code</Label>
-                  <Input
-                    id="verification"
-                    placeholder="Enter 6-digit code"
-                    value={verificationCode}
-                    onChange={(e) => setVerificationCode(e.target.value)}
-                  />
-                  <div className="flex space-x-2 mt-2">
-                    <Button onClick={handleVerificationSubmit} className="flex-1">
-                      Verify
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        setShowEmailVerification(false)
-                        setStaffEmail("")
-                        setVerificationCode("")
-                        setSentCode("")
-                        setCurrentStaffMember(null)
-                      }}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      )}
 
       {/* Add Announcement Modal */}
       {showAddAnnouncement && (
@@ -529,7 +382,7 @@ export default function AnnouncementsPage({
             </Button>
             <h2 className="text-3xl font-bold text-gray-900">Announcements</h2>
           </div>
-          {isLoggedIn && !viewAsStudent && (
+          {!viewAsStudent && (
             <div className="flex space-x-2">
               <Button onClick={() => setShowAddAnnouncement(true)} className="bg-purple-600 hover:bg-purple-700">
                 <Plus className="h-4 w-4 mr-2" />
@@ -598,7 +451,7 @@ export default function AnnouncementsPage({
                         </div>
                         <CardTitle className="text-xl">{announcement.title}</CardTitle>
                       </div>
-                      {isLoggedIn && !viewAsStudent && (
+                      {!viewAsStudent && (
                         <div className="flex space-x-1">
                           <Button size="sm" variant="ghost">
                             <Edit className="h-4 w-4" />
