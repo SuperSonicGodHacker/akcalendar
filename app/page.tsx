@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import SchoolCalendar from "../school-calendar"
 import AnnouncementsPage from "../announcements-page"
-import ContactPage from "../contact-page"
 
 interface User {
   id: number
@@ -53,7 +52,6 @@ export default function Page() {
     <div>
       {currentPage === "calendar" && <SchoolCalendar onNavigate={setCurrentPage} {...sharedProps} />}
       {currentPage === "announcements" && <AnnouncementsPage onNavigate={setCurrentPage} {...sharedProps} />}
-      {currentPage === "contact" && <ContactPage onNavigate={setCurrentPage} {...sharedProps} />}
     </div>
   )
 }

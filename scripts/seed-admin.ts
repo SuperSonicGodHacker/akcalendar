@@ -13,10 +13,14 @@ dotenv.config()
 async function main() {
   const email = process.env.ADMIN_EMAIL ?? "admin@ardreykelll.com"
   const password = process.env.ADMIN_PASSWORD ?? ""
-  const name = process.env.ADMIN_NAME ?? "Administrator"
+  const name = process.env.ADMIN_NAME
 
   if (!password) {
     console.error("Error: ADMIN_PASSWORD env var is required")
+    process.exit(1)
+  }
+  if (!name) {
+    console.error("Error: ADMIN_NAME env var is required — set it before running this script")
     process.exit(1)
   }
 

@@ -342,9 +342,6 @@ const handleUpdateEvent = async () => {
                 >
                   Announcements
                 </button>
-                <button onClick={() => onNavigate("contact")} className="hover:text-purple-200 transition-colors">
-                  Staff Contacts
-                </button>
               </nav>
               <div className="flex items-center space-x-2">
                 {user ? (

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ArrowLeft, Plus, Edit, Trash2, Calendar, Briefcase, Heart, Users, Loader2 } from "lucide-react"
+import { Plus, Edit, Trash2, Briefcase, Heart, Users, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -44,7 +44,6 @@ export default function AnnouncementsPage({
   setViewAsStudent
 }: AnnouncementsPageProps) {
   const [showAddAnnouncement, setShowAddAnnouncement] = useState(false)
-  const [showAddEvent, setShowAddEvent] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [announcements, setAnnouncements] = useState<Announcement[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -71,13 +70,6 @@ export default function AnnouncementsPage({
   const [newAnnouncement, setNewAnnouncement] = useState({
     title: "",
     content: "",
-    category: "",
-  })
-
-  const [newEvent, setNewEvent] = useState({
-    title: "",
-    description: "",
-    date: new Date().toISOString().split("T")[0],
     category: "",
   })
 
@@ -149,33 +141,6 @@ export default function AnnouncementsPage({
     return colors[category] || "bg-gray-100 text-gray-800"
   }
 
-  const handleAddEvent = () => {
-    if (newEvent.title && newEvent.date && newEvent.category) {
-      // Format the event for the calendar
-      const event = {
-        title: newEvent.title,
-        description: newEvent.description,
-        date: newEvent.date,
-        category: newEvent.category,
-      }
-
-      // In a real application, we would save this to a database
-      // For now, we'll just show a success message
-      alert(`Event "${newEvent.title}" added to calendar on ${newEvent.date}`)
-
-      // Reset form and close modal
-      setNewEvent({
-        title: "",
-        description: "",
-        date: new Date().toISOString().split("T")[0],
-        category: "",
-      })
-      setShowAddEvent(false)
-    } else {
-      alert("Please fill in all required fields")
-    }
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -208,9 +173,6 @@ export default function AnnouncementsPage({
                   className="hover:text-purple-200 transition-colors font-medium text-purple-200"
                 >
                   Announcements
-                </button>
-                <button onClick={() => onNavigate("contact")} className="hover:text-purple-200 transition-colors">
-                  Staff Contacts
                 </button>
               </nav>
               <div className="flex items-center space-x-2">
@@ -316,94 +278,15 @@ export default function AnnouncementsPage({
         </div>
       )}
 
-      {/* Add Event Modal */}
-      {showAddEvent && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-96 max-h-[80vh] overflow-y-auto">
-            <CardHeader>
-              <CardTitle>Add New Calendar Event</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="event-title">Event Title</Label>
-                <Input
-                  id="event-title"
-                  value={newEvent.title}
-                  onChange={(e) => setNewEvent((prev) => ({ ...prev, title: e.target.value }))}
-                  placeholder="Enter event title"
-                />
-              </div>
-              <div>
-                <Label htmlFor="event-date">Event Date</Label>
-                <Input
-                  id="event-date"
-                  type="date"
-                  value={newEvent.date}
-                  onChange={(e) => setNewEvent((prev) => ({ ...prev, date: e.target.value }))}
-                />
-              </div>
-              <div>
-                <Label htmlFor="event-category">Category</Label>
-                <Select
-                  value={newEvent.category}
-                  onValueChange={(value) => setNewEvent((prev) => ({ ...prev, category: value }))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.slice(1, 7).map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label htmlFor="event-description">Description</Label>
-                <Textarea
-                  id="event-description"
-                  rows={4}
-                  value={newEvent.description}
-                  onChange={(e) => setNewEvent((prev) => ({ ...prev, description: e.target.value }))}
-                  placeholder="Enter event description"
-                />
-              </div>
-              <div className="flex space-x-2">
-                <Button onClick={handleAddEvent} className="flex-1">
-                  Add Event
-                </Button>
-                <Button variant="outline" onClick={() => setShowAddEvent(false)} className="flex-1">
-                  Cancel
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-4">
-            <Button variant="outline" onClick={() => onNavigate("calendar")}>
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Calendar
-            </Button>
-            <h2 className="text-3xl font-bold text-gray-900">Announcements</h2>
-          </div>
+          <h2 className="text-3xl font-bold text-gray-900">Announcements</h2>
           {user && !viewAsStudent && (
-            <div className="flex space-x-2">
-              <Button onClick={() => setShowAddAnnouncement(true)} className="bg-purple-600 hover:bg-purple-700">
-                <Plus className="h-4 w-4 mr-2" />
-                Add Announcement
-              </Button>
-              <Button onClick={() => setShowAddEvent(true)} variant="outline">
-                <Calendar className="h-4 w-4 mr-2" />
-                Add Event
-              </Button>
-            </div>
+            <Button onClick={() => setShowAddAnnouncement(true)} className="bg-purple-600 hover:bg-purple-700">
+              <Plus className="h-4 w-4 mr-2" />
+              Add Announcement
+            </Button>
           )}
         </div>
 
